@@ -9,12 +9,14 @@
 
         <!-- Email Address -->
         <div class="relative">
-            <x-text-input id="email" class="w-full pl-10 pr-4 py-4 border border-gray-300 rounded-[12px]" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Email" />
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15.8287 8.30603L11.9187 11.4541C11.1788 12.0342 10.1415 12.0342 9.40156 11.4541L5.45801 8.30603" stroke="#807A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.3138 3.20837H14.9561C16.2022 3.22235 17.3882 3.74914 18.2379 4.66606C19.0877 5.58298 19.5269 6.80998 19.4534 8.06132V14.0452C19.5269 15.2965 19.0877 16.5235 18.2379 17.4405C17.3882 18.3574 16.2022 18.8842 14.9561 18.8981H6.3138C3.63722 18.8981 1.83325 16.7207 1.83325 14.0452V8.06132C1.83325 5.38587 3.63722 3.20837 6.3138 3.20837Z" stroke="#807A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
+            <div class="relative">
+                <x-text-input id="email" class="w-full pl-10 pr-4 py-4 border border-gray-300 rounded-[12px]" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Email" />
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.8287 8.30603L11.9187 11.4541C11.1788 12.0342 10.1415 12.0342 9.40156 11.4541L5.45801 8.30603" stroke="#807A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.3138 3.20837H14.9561C16.2022 3.22235 17.3882 3.74914 18.2379 4.66606C19.0877 5.58298 19.5269 6.80998 19.4534 8.06132V14.0452C19.5269 15.2965 19.0877 16.5235 18.2379 17.4405C17.3882 18.3574 16.2022 18.8842 14.9561 18.8981H6.3138C3.63722 18.8981 1.83325 16.7207 1.83325 14.0452V8.06132C1.83325 5.38587 3.63722 3.20837 6.3138 3.20837Z" stroke="#807A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
             </div>
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
@@ -35,18 +37,10 @@
 
         <!-- Remember Me -->
         <div class="flex items-center justify-between mt-4">
-            <label for="toggle" class="flex items-center cursor-pointer">
-                <!-- toggle -->
-                <div class="relative">
-                    <!-- input -->
-                    <input id="toggle" type="checkbox" class="sr-only peer" />
-                    <!-- line -->
-                    <div class="w-10 h-4 bg-gray-400 rounded-full peer-checked:bg-green-500 transition-colors"></div>
-                    <!-- dot -->
-                    <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition-transform peer-checked:translate-x-full"></div>
-                </div>
-                <!-- label -->
-                <div class="ml-3 text-gray-700 font-medium text-sm">{{ __('Ingat saya') }}</div>
+            <label class="inline-flex items-center cursor-pointer">
+                <input type="checkbox" value="" class="sr-only peer">
+                <div class="relative w-11 h-6 bg-gray-200  peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 light:peer-focus:ring-green-800 rounded-full peer light:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all light:border-green-500 peer-checked:bg-green-500 transition-colors"></div>
+                <span class="ms-3 text-sm font-medium text-gray-700 light:text-gray-300">{{ __('Ingat saya') }}</span>
             </label>
 
             @if (Route::has('password.request'))
@@ -57,7 +51,7 @@
         </div>
 
         <div class="d-block mt-4 md:w-auto xs:w-[271px] mx-auto">
-            <x-primary-button class="w-full px-4 bg-green-600 hover:bg-green-700 relative rounded-[15px]">
+            <x-primary-button class="w-full px-4 bg-green-600 hover:bg-green-700 relative rounded-[15px] focus:bg-green-700 active:bg-green-900 light:active:bg-green-300">
                 <span class="text-center">
                     {{ __('Masuk') }}
                 </span>
@@ -70,14 +64,14 @@
                 </div>
             </x-primary-button>
            
-            <p class="text-center my-[24px] font-medium text-base text-[#9D9898]">Atau</p>
+            {{-- <p class="text-center my-[24px] font-medium text-base text-[#9D9898]">Atau</p>
 
             <x-primary-button type="button" class="w-full flex items-center justify-center bg-white border border-[#EDE5E5] text-gray-700 py-2 rounded-lg hover:bg-white focus:bg-white active:bg-white h-[56px] rounded-[15px]">
                 <img src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA" alt="Google Logo" class="h-5 mr-2">
                 <p class="text-[#120D26]">
                     {{ __('Masuk dengan Google') }} 
                 </p>
-            </x-primary-button>
+            </x-primary-button> --}}
 
             <p class="text-center mt-[93px] mb-[38px] font-regular text-base text-[#120D26]">Belum punya akun? <a class="text-green-700" href="{{ route('register') }}">Daftar Dulu Yuk</a></p>
         </div>

@@ -1,11 +1,10 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [EventController::class, 'index'])->name('explore');
 
 Route::get('/schedule', function () {
     return view('schedule');
@@ -14,7 +13,6 @@ Route::get('/schedule', function () {
 Route::get('/history', function () {
     return view('history');
 })->middleware(['auth', 'verified'])->name('history');
-
 
 Route::get('/dashboard', function () {
     return view('dashboard');

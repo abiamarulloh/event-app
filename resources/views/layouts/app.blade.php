@@ -18,11 +18,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 light:bg-gray-900">
+        <div class="min-h-screen bg-[#FFFFF] light:bg-[#FFFFF]">
             <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white light:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex gap-x-4">
                         {{ $header }}
                     </div>
                 </header>
@@ -33,7 +33,11 @@
                 {{ $slot }}
             </main>
 
-            @include('layouts.navigation-bottom')
+            @include('layouts.sidebar')
+
+            @if(route('explore') == request()->url() || route('profile.edit') == request()->url() || route('schedule') == request()->url() || route('history') == request()->url())
+                @include('layouts.navigation-bottom')
+            @endif
         </div>
     </body>
 </html>

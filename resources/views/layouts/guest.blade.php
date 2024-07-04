@@ -14,8 +14,8 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-[#F5F5F5] light:bg-[#F5F5F5]">
+    <body class="font-sans text-gray-900 antialiased max-w-md mx-auto ">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-[#FFFFF] light:bg-[#FFFFF]">
             <div class="flex flex-col items-center mt-[50px]">
                 <a href="/">
                     <x-application-logo class="w-20 h-20 fill-current text-gray-500" />

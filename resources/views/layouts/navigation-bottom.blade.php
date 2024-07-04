@@ -1,8 +1,8 @@
 <!-- Navigation Menu -->
-<nav class="fixed bottom-0 left-0 right-0 bg-white shadow-md">
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t-4 border-grey-50">
     <div class="flex justify-around items-end py-2">
         <!-- Jelajahi -->
-        <a href="{{ route('home') }}" class="{{ request()->is('/') ? 'text-green-500' : 'text-gray-300' }} flex flex-col items-center  gap-1">
+        <a href="{{ route('explore') }}" class="{{ request()->is('/') ? 'text-green-500' : 'text-gray-300' }} flex flex-col items-center  gap-1">
             <span class="material-symbols-outlined">
                 explore
             </span>
