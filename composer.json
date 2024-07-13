@@ -8,6 +8,8 @@
         "php": "^8.2",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
+        "midtrans/midtrans-php": "^2.5",
+        "php-flasher/flasher-laravel": "^2.0",
         "spatie/laravel-permission": "^6.7",
         "stevebauman/location": "^7.3"
     },
@@ -26,7 +28,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

@@ -18,5 +18,8 @@ export default {
         }
     },
 
-    plugins: [forms, require('tailwindcss'), require('autoprefixer'), require('flowbite/plugin')],
+    plugins: [forms, require('tailwindcss'), require('autoprefixer'), require('flowbite/plugin')({
+        charts: true,
+    }),
+  ],
 };

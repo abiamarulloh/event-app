@@ -21,37 +21,52 @@
                 </div>
             @endif
 
-            <form action="{{ route('category.update', $category->id) }}" method="POST">
+            <form action="{{ route('category.store') }}" method="POST">
                 @csrf
-                @method('PUT')
-
 
                 <!-- Title -->
                 <div class="mb-4">
                     <label for="title" class="block text-sm font-medium mb-2">Title</label>
-                    <input type="text" name="name" value="{{ $category->name }}" id="title"
+                    <input type="text" name="name" id="title"
                         class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Tag Color -->
                 <div class="mb-4">
                     <label for="tag-color" class="block text-sm font-medium mb-2">Tag Color</label>
-                    <input type="color" id="tag-color-picker" name="color" value="{{ $category->color }}" class="w-20 h-10 border-0 rounded cursor-pointer mt-[-3px]" onchange="selectColor(this.value)">
+                    <input type="color" id="tag-color-picker" name="color"  class="w-20 h-10 border-0 rounded cursor-pointer mt-[-3px]" onchange="selectColor(this.value)">
                 </div>
+                {{-- <div class="mb-4">
+                    <label for="tag-color" class="block text-sm font-medium mb-2">Tag Color</label>
+
+                    <div class="flex space-x-2">
+                        <div class="w-8 h-8 bg-red-500 rounded cursor-pointer" onclick="selectColor('#FF0000')"></div>
+                        <div class="w-8 h-8 bg-blue-500 rounded cursor-pointer" onclick="selectColor('#0000FF')"></div>
+                        <div class="w-8 h-8 bg-green-500 rounded cursor-pointer" onclick="selectColor('#008000')"></div>
+                        <div class="w-8 h-8 bg-yellow-500 rounded cursor-pointer" onclick="selectColor('#FFFF00')"></div>
+                        <div class="w-8 h-8 bg-purple-500 rounded cursor-pointer" onclick="selectColor('#800080')"></div>
+                        <div class="w-8 h-8 bg-orange-500 rounded cursor-pointer" onclick="selectColor('#FFA500')"></div>
+        
+                        <input type="color" id="tag-color-picker" class="w-10 h-10 border-0 rounded cursor-pointer mt-[-3px]" onchange="selectColor(this.value)">
+                    </div>
+        
+                    <input type="hidden" name="color" id="tag-color-hidden">
+                </div> --}}
 
                 <!-- Description -->
                 <div class="mb-4">
                     <label for="description" class="block text-sm font-medium mb-2">Description</label>
                     <textarea id="description" name="description" rows="4"
                         class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Write a description here">{{ $category->description }}</textarea>
+                        placeholder="Write a description here"></textarea>
                 </div>
+
 
                 <!-- Add Event Button -->
                 <div>
                     <button type="submit"
                         class="w-64 p-2.5 bg-blue-600 text-white rounded hover:bg-blue-700 focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50">
-                        Perbarui Kategori
+                        Buat Kategori
                     </button>
                 </div>
             </form>
