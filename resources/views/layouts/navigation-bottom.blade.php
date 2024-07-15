@@ -9,14 +9,14 @@
             <span class="text-xs">Jelajahi</span>
         </a>
         <!-- Acara -->
-        <a href="{{ route('schedule') }}" class="{{ request()->is('schedule') ? 'text-green-500' : 'text-gray-300' }} flex flex-col items-center  gap-1">
+        <a href="{{ route('cart.index') }}" class="{{ request()->is('cart') ? 'text-green-500' : 'text-gray-300' }} flex flex-col items-center  gap-1">
             <span class="material-symbols-outlined">
-                calendar_today
+                shopping_cart
             </span>
-            <span class="text-xs">Acara</span>
+            <span class="text-xs">Keranjang</span>
         </a>
         <!-- History -->
-        <a href="{{ route('history') }}" class="{{ request()->is('history') ? 'text-green-500' : 'text-gray-300' }} flex flex-col items-center  gap-1">
+        <a href="{{ route('history') }}" class="{{ request()->is('history') || request()->routeIs('history.detail') ? 'text-green-500' : 'text-gray-300' }} flex flex-col items-center  gap-1">
             <span class="material-symbols-outlined">
                 receipt_long
             </span>

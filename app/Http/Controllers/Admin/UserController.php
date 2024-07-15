@@ -51,7 +51,7 @@ class UserController extends Controller
 
         event(new Registered($user));
 
-        flash()->flash('success', 'Anggota berhasil dibuat.');
+        flash()->flash('success', 'User berhasil dibuat.');
         return redirect()->route('user.index');
     }
 
@@ -60,7 +60,6 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        return view('event_organizer.events.show');
     }
 
     /**
@@ -70,7 +69,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $roles = Role::all();
-        return view('event_organizer.events.edit', compact('user', 'roles'));
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -83,15 +82,23 @@ class UserController extends Controller
         $request->validate([
            'name' => 'required',
             'email' => 'required',
-            'password' => 'required',
-            'confirm_password' => 'required',
             'role_id' => 'required',
         ]);
+
+        if ($request->password) {
+            $request->validate([
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+                'password_confirmation' => ['required']
+            ]);
+            $user->password = Hash::make($request->password);
+        } else {
+            $request['password'] = $user->password;
+        }
 
         // Validate and update the event
         $user->update($request->all());
     
-        flash()->flash('success', 'Anggota <b>'. $user->title  . '</b> berhasil diperbarui.');
+        flash()->flash('success', 'User <b>'. $user->title  . '</b> berhasil diperbarui.');
         // Redirect back to the event edit page with a success message
         return redirect()->route('user.index');
     }
@@ -102,7 +109,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        flash()->flash('success', 'Anggota <b>'. $user->title  . '</b> berhasil dihapus.');
+        flash()->flash('success', 'User <b>'. $user->title  . '</b> berhasil dihapus.');
         return redirect()->route('user.index');
     }
 }

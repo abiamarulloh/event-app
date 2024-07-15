@@ -22,7 +22,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('event.update', $event->id) }}" method="POST">
+                <form action="{{ route('event.update', $event->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     
@@ -36,12 +36,12 @@
                     <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label for="start-date" class="block text-sm font-medium mb-2">Waktu Mulai</label>
-                            <input type="date" id="start-date" value="{{ old('start_date', $event->start_date ?  \Carbon\Carbon::parse($event->start_date)->format('Y-m-d') : '') }}" name="start_date"
+                            <input type="datetime-local" id="start-date" value="{{ old('start_date', $event->start_date ?  \Carbon\Carbon::parse($event->start_date)->format('Y-m-d\TH:i') : '') }}" name="start_date"
                                 class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div>
                             <label for="end-date" class="block text-sm font-medium mb-2">Waktu Akhir</label>
-                            <input type="date" id="end-date" value="{{ old('start_date', $event->end_date ?  \Carbon\Carbon::parse($event->end_date)->format('Y-m-d') : '') }}" name="end_date"
+                            <input type="datetime-local" id="end-date" value="{{ old('start_date', $event->end_date ?  \Carbon\Carbon::parse($event->end_date)->format('Y-m-d\TH:i') : '') }}" name="end_date"
                                 class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
                         </div>
                     </div>
@@ -189,8 +189,6 @@
                         </div>
 
                         <div>
-                            @php 
-                            @endphp
                             <label for="link_registration" class="block text-sm font-medium mb-2">Link Registration</label>
                             <input type="text" value="{{ $event->link_registration}}" readonly id="link_registration" name="link_registration" class="w-full border-0 p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
                         </div>
@@ -208,6 +206,69 @@
                         </div>
                     </div>
 
+                    <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
+                            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help"  name="poster_image" id="file_input" type="file">
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG.</p>
+                       </div>
+
+                       <div>
+                            @if ($event->poster_image)
+                                <img src="{{ Storage::url('events/' . $event->poster_image) }}" alt="{{ $event->name }}" width="100">
+                                {{-- <form action="{{ route('event.deleteImage', ['id' => $event->id]) }}" method="PUT">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger mt-2">Delete Image</button>
+                                </form> --}}
+                            @endif
+                       </div>
+                    </div>
+
+                   
+                    <div>
+                        <label for="is_fundraising" class="block text sm font-medium mb-2">Apakah acara ini menggalang dana ?</label>
+                        <p>*isi hanya jika kamu sedang menggalang dana!</p>
+                    </div>
+
+                    <div class="mt-5">
+                        @if ($event->fundraising_image)
+                                <img src="{{ Storage::url('fundraising/' . $event->fundraising_image) }}" alt="{{ $event->name }}" width="100">
+                                {{-- <form action="{{ route('event.deleteImage', ['id' => $event->id]) }}" method="PUT">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger mt-2">Delete Image</button>
+                                </form> --}}
+                            @endif
+                    </div>
+
+                    <div class="mb-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
+                            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help"  name="fundraising_image" id="file_input" type="file">
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG.</p>
+                        </div>
+
+                        <div>
+                            <label for="fundraising_title" class="block text-sm font-medium mb-2">Tujuan Penggalangan Dana</label>
+                            <input type="text" value="{{ $event->fundraising_title}}" id="fundraising_title" name="fundraising_title" class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+
+                        <div>
+                            <label for="fundraising_target" class="block text-sm font-medium mb-2">Target Penggalangan Dana</label>
+                            <input type="number" value="{{ $event->fundraising_target}}" id="fundraising_target" name="fundraising_target" class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+
+                    <div class="mb-4 grid grid-cols-1 gap-4">
+                        <div>
+                            <label for="fundraising_description" class="block text-sm font-medium mb-2">Deskripsi Penggalangan Dana</label>
+                            <textarea id="fundraising_description" rows="4"
+                            name="fundraising_description" maxlength="200"
+                        class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Deskripsi penggalangan dana pada event mu...">{{ $event->fundraising_description }}</textarea>
+                        </div>
+                    </div>
 
                     <!-- Add Event Button -->
                     <div>

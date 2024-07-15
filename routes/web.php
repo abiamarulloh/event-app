@@ -1,15 +1,18 @@
 <?php
 
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\EventOrganizer\CategoryController;
 use App\Http\Controllers\EventOrganizer\EventController;
 use App\Http\Controllers\ExploreController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ExploreController::class, 'index'])->name('explore');
 
-Route::get('/event/{slug}', [ExploreController::class, 'show'])->name('detail-event');
+Route::get('/event-register/{slug}', [ExploreController::class, 'show'])->name('event-register');
 Route::post('/payment/handler', [ExploreController::class, 'paymentHandler'])->name('payment-handler');
 
 Route::middleware('auth', 'verified')->group(function () {
@@ -24,18 +27,21 @@ Route::middleware('auth', 'verified')->group(function () {
     })->name('dashboard');
 
     Route::resource('event', EventController::class);
+    Route::delete('/event/{id}/delete-image', 'EventController@deleteImage')->name('event.deleteImage');
     Route::resource('category', CategoryController::class);
     Route::resource('user', UserController::class);
 
+
     // For Attender 
-    Route::get('/schedule', function () {
-        return view('schedule');
-    })->name('schedule');
-    
-    Route::get('/history', function () {
-        return view('history');
-    })->middleware(['auth', 'verified'])->name('history');
-    
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::delete('/cart/remove/{cartId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+    Route::post('/cart/update-quantity/{cartId}', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+
+    Route::get('/history', [OrderController::class, 'index'])->name('history');
+    Route::get('/history/order/{invoiceId}', [OrderController::class, 'show'])->name('history.detail');
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::post('/transactions/notification', [TransactionController::class, 'notification'])->name('transactions.notification');
 });
 
 require __DIR__.'/auth.php';

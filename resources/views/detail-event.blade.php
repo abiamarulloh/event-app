@@ -1,8 +1,4 @@
 <x-app-layout>
-    <script type="text/javascript"
-    src="https://app.sandbox.midtrans.com/snap/snap.js"
-    data-client-key="{{ config('midtrans.client_key') }}"></script>
-
     <div class="overflow-x-hidden max-w-md mx-auto h-screen shadow-md relative">
         <div class="max-w-7xl mx-auto absolute left-0 right-0 top-0 w-full">
             <div class="bg-white opacity-40 absolute left-0 right-0 top-0 w-full h-20"></div>
@@ -24,13 +20,36 @@
         </div>
 
         <div class="bg-white dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
-                <img src="https://i.pinimg.com/564x/82/7b/02/827b0246f4a0094b6798afeb02a64f0e.jpg" alt="" />
-            </a>
+            <img src="{{ $event->poster_image ? Storage::url('events/' . $event->poster_image) : 'https://i.pinimg.com/564x/82/7b/02/827b0246f4a0094b6798afeb02a64f0e.jpg' }}" alt="{{ $event->poster_image }}" height="400px" />
+            
             <div class="p-5 mb-20">
-                <a href="#">
+                <div class="flex justify-between items-center gap-2 relative">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $event->title }}</h5>
-                </a>
+                    
+                    @if ($event->status === 'published')
+                        <span class="bg-green-100 text-green-800 text-md absolute top-[-70px] right-0 font-medium me-2 px-2 py-3 rounded dark:bg-green-900 dark:text-green-300">
+                            @if ($event->price == 0)
+                                Gratis
+                            @else
+                                @currency($event->price) 
+                            @endif
+                        </span>
+                    @else
+                        <span class="bg-yellow-100 text-yellow-800 text-md absolute top-[-70px] right-0 font-medium me-2 px-2 py-3 rounded dark:bg-yellow-900 dark:text-yellow-300">
+                            Terjual habis
+
+                            (
+                                @if ($event->price == 0)
+                                    Gratis
+                                @else
+                                    @currency($event->price) 
+                                @endif
+                            )
+                        </span>
+                    @endif
+                </div>
+
+                
 
                 <div class="flex items-center gap-2 text-gray-500 mt-5">
                     <div>
@@ -108,24 +127,65 @@
                 <h3 class="text-gray-800 font-bold mt-5">Tentang Acara </h3>
                 <p class="mb-3 font-normal text-gray-500 dark:text-gray-400 text-justify">{{ $event->description }}</p>
             
-                {{-- <a href="#" class="sticky  inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Beli Tiket
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 12A2.5 2.5 0 0 1 21 9.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v2.5a2.5 2.5 0 0 1 0 5V17a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
-                    </svg>
-                </a> --}}
+                @if ($event->fundraising_title && $event->fundraising_target)
+                    <div class="flex items-center p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">
+                        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        </svg>
+                        <div>
+                         {{ $event->fundraising_title }} 
+                         <br> 
+                       
+                         <div class="flex items-center gap-2">
+                           <div>
+                            Target: 
+                           </div>
+                           <p class="flex items-center gap-2">
+                                <svg class="w-6 h-6 text-blue-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                    <path fill-rule="evenodd" d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z" clip-rule="evenodd"/>
+                                    <path fill-rule="evenodd" d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z" clip-rule="evenodd"/>
+                                </svg>
+                                <b> @currency($event->fundraising_target) </b>
+                            </p>
+                         </div>
+                      
+                        </div>
+                    </div>
+                @endif
+                
+                @if ($event->fundraising_image)
+                    <div class="mt-5">
+                        <img src="{{  Storage::url('fundraising/' . $event->fundraising_image) }}" alt="{{ $event->fundraising_image }}" class="w-full h-60 object-cover rounded-lg" />
+                    </div>
+                @endif
 
                 @auth 
                     @if (Auth::user()->role_id == 3)
                         <div tabindex="-1" class="fixed bottom-0 start-0 z-50 flex justify-between w-full p-6 border-b border-gray-200">
                             <div class="max-w-md w-full px-0 sm:px-8 mx-auto">
-                                <button id="pay-button" class="flex justify-center  gap-3 h-py-6 items-center text-white bg-[#0CA035] hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center">
-                                    <p>Beli Tiket</p>
+                                @if ($alreadyAddedCart) 
+                                    <form action="{{ route('cart.index') }}" method="GET">
 
-                                    <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 12A2.5 2.5 0 0 1 21 9.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v2.5a2.5 2.5 0 0 1 0 5V17a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
-                                    </svg>
-                                </button>
+                                        <button class="flex justify-center  gap-3 h-py-6 items-center text-white bg-[#9CA3AF] hover:bg-[#9CA3AF] focus:ring-4 focus:outline-none focus:ring-[#9CA3AF] font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center">
+                                            <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4"/>
+                                            </svg>
+                                            
+                                            Buka Keranjang
+                                        </button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('cart.add', $event->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="flex justify-center  gap-3 h-py-6 items-center text-white bg-[#0CA035] hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center">
+                                            <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4"/>
+                                            </svg>
+                                            
+                                            Tambah ke keranjang
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
                     @endif
@@ -134,16 +194,4 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-        var payButton = document.getElementById('pay-button');
-        payButton.addEventListener('click', function () {
-            if (document.cookie.indexOf('XSRF-TOKEN=') == -1) {
-                alert('Silahkan login terlebih dahulu');
-                window.location.href = '/login';
-                return;
-            } else {
-                window.snap.pay('{{ $snapToken }}');
-            }
-        });
-    </script>
 </x-app-layout>

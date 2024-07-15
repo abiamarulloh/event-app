@@ -16,10 +16,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-        {{-- <script type="text/javascript"
-		src="https://app.stg.midtrans.com/snap/snap.js"
-    data-client-key="SB-Mid-client-LFs5gv5bO4gwHoFj"></script> --}}
+        @livewireStyles
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-[#FFFFF] light:bg-[#FFFFF] shadow-sm">
@@ -28,14 +25,16 @@
                 {{ $slot }}
             </main>
 
-            @if(!request()->routeIs('detail-event'))
+            @if(!request()->routeIs('event-register') && !request()->routeIs('cart.index') && !request()->routeIs('history.detail'))
                 @include('layouts.sidebar')
             @endif
             
 
-            @if(route('explore') == request()->url() || route('profile.edit') == request()->url() || route('schedule') == request()->url() || route('history') == request()->url())
+            @if(route('explore') == request()->url() || route('profile.edit') == request()->url() || route('history') == request()->url() || request()->routeIs('history.detail'))
                 @include('layouts.navigation-bottom')
             @endif
         </div>
+
+        @livewireScripts
     </body>
 </html>

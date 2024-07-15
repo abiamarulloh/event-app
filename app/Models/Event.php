@@ -35,7 +35,8 @@ class Event extends Model
         'link_registration',
         'terms_and_conditions',
         'speaker',
-        'agenda'
+        'agenda',
+        'image'
     ];
 
     public function category()

@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -47,7 +48,19 @@ class EventController extends Controller
             'quota' => 'required',
             'price' => 'required',
             'location' => 'required',
+            'poster_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
+
+        if ($request->hasFile('poster_image')) {
+            $imageName = time().'.'.$request->poster_image->extension();
+            $request->poster_image->storeAs('public/events', $imageName);
+        } else {
+            $imageName = null;
+        }
+        
+        $request['poster_image'] = $imageName;
+
+        dd($request->all());
 
         Event::create($request->all());
 
@@ -92,10 +105,40 @@ class EventController extends Controller
             'quota' => 'required',
             'price' => 'required',
             'location' => 'required',
+            'poster_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'fundraising_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'fundraising_title' => 'nullable|string|max:200',
+            'fundraising_description' => 'nullable|string|max:200',
+            'fundraising_target' => 'nullable|numeric'
         ]);
 
-        // Validate and update the event
-        $event->update($request->all());
+        if ($request->hasFile('poster_image')) {
+            $imagePosterName = time().'.'.$request->poster_image->extension();
+            $request->poster_image->storeAs('public/events', $imagePosterName);
+        } else {
+            $imagePosterName = $event->poster_image;
+        }
+
+        if ($request->hasFile('fundraising_image')) {
+            // Hapus gambar dari penyimpanan jika ada
+            if ($event->fundraising_image) {
+                Storage::delete('public/fundraising/' . $event->fundraising_image);
+            }
+            $imageFundraisingName = time().'.'.$request->fundraising_image->extension();
+            $request->fundraising_image->storeAs('public/fundraising', $imageFundraisingName);
+        } else {
+            $imageFundraisingName = $event->fundraising_image;
+        }
+        
+        $event->fill($request->all());
+        $event->poster_image = $imagePosterName;
+
+        $event->fundraising_image = $imageFundraisingName;
+        $event->fundraising_title = $request->fundraising_title;
+        $event->fundraising_description = $request->fundraising_description;
+        $event->fundraising_target = $request->fundraising_target;
+
+        $event->save();
     
         flash()->flash('success', 'Acara <b>'. $event->title  . '</b> berhasil diperbarui.');
         // Redirect back to the event edit page with a success message
@@ -110,5 +153,19 @@ class EventController extends Controller
         $event->delete();
         flash()->flash('success', 'Acara <b>'. $event->title  . '</b> berhasil dihapus.');
         return redirect()->route('event.index');
+    }
+
+    public function deleteImage($id)
+    {
+        $event = Event::findOrFail($id);
+
+        // Hapus gambar dari penyimpanan jika ada
+        if ($event->poster_image) {
+            Storage::delete('public/events/' . $event->poster_image);
+            $event->poster_image = null; // Kosongkan field poster_image di database
+            $event->save();
+        }
+
+        return redirect()->route('event.index', ['id' => $event->id])->with('success', 'Image deleted successfully.');
     }
 }

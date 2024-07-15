@@ -28,14 +28,8 @@ return new class extends Migration
             $table->text('terms_and_conditions')->nullable();
             $table->text('speaker')->nullable();
             $table->text('agenda')->nullable();
+            $table->string('image')->nullable();
 
-            // $table->string('sponsorship_name')->nullable();
-            // $table->string('sponsorship_image')->nullable();
-            // $table->string('sponsorship_link')->nullable();
-            // $table->string('sponsorship_description')->nullable();
-            // $table->string('sponsorship_price')->nullable();
-            // $table->string('sponsorship_quota')->nullable();
-            
             $table->enum('status', ['draft', 'published', 'closed'])->default('draft');
             $table->timestamp('draft_at')->nullable();
             $table->timestamp('published_at')->nullable();

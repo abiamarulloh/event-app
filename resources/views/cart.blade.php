@@ -1,0 +1,274 @@
+<x-app-layout>
+    
+
+    <x-slot name="header">
+        <svg data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar"
+            class="w-6 h-6 text-white dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="black" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h10" />
+        </svg>
+        <h2 class="font-semibold text-xl text-gray-800 light:text-gray-200 leading-tight">
+            {{ __('Cart') }}
+        </h2>
+    </x-slot>
+
+    <div class="max-w-md mx-auto shadow-md relative h-screen overflow-auto">
+        {{-- Buat Flex --}}
+        <div class="flex justify-between items-center p-4 bg-white shadow-md rounded-lg px-6">
+            <a href="{{ route('explore') }}" class="text-green-500">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
+                  </svg>
+            </a>
+            <h2 class="text-lg font-semibold flex gap-2">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
+                  </svg>
+                <span>Keranjang</span>      
+            </h2>
+        </div>
+
+        <div class="container mx-auto p-6 pb-20">
+            <!-- Cart Item -->
+
+            @if($cartItems->isEmpty())
+                <div class="max-w-md flex flex-col items-center justify-center h-[400px]">
+                    <p class="text-gray-600 text-center">Keranjang kosong.</p>
+                </div>
+            @else
+                @foreach($cartItems as $cartItem)
+                   <a href="{{ route('event-register', $cartItem->event->slug) }}">
+                        <div class="bg-white shadow-md rounded-lg p-4 mb-4 h-200">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div>
+                                        <h2 class="text-lg font-semibold">{{ $cartItem->event->title }}</h2>
+                                        <p class="text-sm text-gray-600 price">@currency($cartItem->event->price)</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 14v4.833A1.166 1.166 0 0 1 16.833 20H5.167A1.167 1.167 0 0 1 4 18.833V7.167A1.166 1.166 0 0 1 5.167 6h4.618m4.447-2H20v5.768m-7.889 2.121 7.778-7.778"/>
+                                    </svg>
+    
+                                    <form action="{{ route('cart.remove', $cartItem->id) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="bg-none border-none">
+                                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div>
+                                  
+                                {{-- <div class="flex items-center">
+                                    <button class="text-gray-700 bg-gray-200 hover:bg-gray-300 p-2 rounded-l" onclick="decreaseQty(this, {{ $cartItem->id }}, {{ $cartItem->event->price }})">-</button>
+                                    <input type="number" class="w-12 text-center border-0 qty" value="{{ $cartItem->quantity }}" readonly>
+                                    <button class="text-gray-700 bg-gray-200 hover:bg-gray-300 p-2 rounded-r" onclick="increaseQty(this, {{ $cartItem->id }}, {{ $cartItem->event->price }})">+</button>
+                                </div> --}}
+                            </div>
+                        </div>
+                   </a>
+                @endforeach
+            
+                <!-- Additional Fees -->
+                <div class="bg-white shadow-md rounded-lg p-4 mb-6">
+                    <h2 class="text-lg font-semibold mb-4">Biaya Tambahan</h2>
+                    <div class="flex justify-between items-center mb-2">
+                        <span>Tax</span>
+                        <span id="tax">Rp10.000</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span>Biaya Layanan</span>
+                        <span id="service-charge">Rp6.000</span>
+                    </div>
+                </div>
+
+                @if($cartItems->first()->event->fundraising_title && $cartItems->first()->event->fundraising_target)
+                    <div class="bg-white shadow-md rounded-lg p-4 mb-6">
+                        <h2 class="text-lg font-semibold mb-4">Donasi</h2>
+
+                        @if ($cartItems->first()->event->fundraising_image)
+                            <div class="mt-5">
+                                <img src="{{  Storage::url('fundraising/' . $cartItems->first()->event->fundraising_image) }}" alt="{{ $cartItems->first()->event->fundraising_image }}" class="w-full h-60 object-cover rounded-lg" />
+                            </div>
+                        @endif
+
+                        @if($cartItems->first()->event->fundraising_target)
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="font-medium">Target Donasi</span>
+                                <span id="fundraising-target">@currency($cartItems->first()->event->fundraising_target)</span>
+                            </div>
+                        @endif
+
+                        <div class="flex flex-col justify-between items-center mt-4 gap-3">
+                            <span class="font-medium">
+                                {{ $cartItems->first()->event->fundraising_title }}
+                            </span>
+                            <input type="number" id="donation" class="w-full text-center border-gray-400" value="0" placeholder="1000">
+                        </div>
+                    </div>
+                @endif
+                
+            @endif
+        </div>
+    
+        @if($cartItems->isEmpty() === false)
+            <!-- Total dan Bayar (Fixed Bottom) -->
+            <div class="fixed bottom-0 left-0 right-0 bg-white border shadow-md p-4 flex justify-between items-center max-w-md mx-auto">
+                <div class="flex flex-col">
+                    <p class="text-md font-semibold">Total</p>
+                    <p id="total-price">@currency($total)</p>
+                </div>
+                
+                {{-- Data --}}
+                <input type="hidden" id="event_id_payload"  value="{{ $cartItems->first()->event->id }}">
+                <input type="hidden" id="total_price_payload"  value="{{ $total }}">
+                    
+                <button  id="pay-button" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex gap-2">
+                    <p>Bayar</p>
+
+                    <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 12A2.5 2.5 0 0 1 21 9.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v2.5a2.5 2.5 0 0 1 0 5V17a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                    </svg>
+                </button>
+            </div>
+        @endif
+
+    
+        <script>
+            // function updateQuantity(cartItemId, quantity, price) {
+            //     fetch(`/cart/update-quantity/${cartItemId}`, {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            //         },
+            //         body: JSON.stringify({ quantity: quantity })
+            //     })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         if (data.success) {
+            //             console.log('Quantity updated:', data.quantity);
+            //             // getTotalQty()
+            //             updateTotalPrice();
+            //         }
+            //     })
+            //     .catch(error => console.error('Error:', error));
+            // }
+
+            // function decreaseQty(button, cartItemId, price) {
+            //     var input = button.nextElementSibling;
+            //     if (input.value > 1) {
+            //         input.value--;
+            //         updateQuantity(cartItemId, input.value, price);
+            //     }
+            // }
+
+            // function increaseQty(button, cartItemId, price) {
+            //     var input = button.previousElementSibling;
+            //     input.value++;
+            //     updateQuantity(cartItemId, input.value, price);
+            // }
+
+            function updateTotalPrice() {
+                let totalPrice = 0;
+                const cartItems = document.querySelectorAll('.bg-white.shadow-md.rounded-lg.p-4.mb-4.h-200'); // Sesuaikan dengan selector yang benar untuk item keranjang
+
+                cartItems.forEach(item => {
+                    // const quantity = parseInt(item.querySelector('input[type="number"]')?.value);
+                    const price = parseFloat(item.querySelector('.price').textContent.replace(/[^0-9-,]+/g,""));
+                    totalPrice += 1 * price;
+                });
+
+                const tax = 10000; // Misalnya nilai pajak
+                const serviceCharge = 6000; // Misalnya nilai Biaya Layanan
+                totalPrice += tax + serviceCharge;
+
+                totalPrice = Number(totalPrice);
+
+                const donation = parseInt(document.getElementById('donation').value);
+
+                if (donation > 0) {
+                    totalPrice += donation;
+                }
+
+                document.getElementById('total-price').innerText = `Rp${totalPrice.toLocaleString()}`;
+                document.getElementById('total_price_payload').value = totalPrice;
+            }
+
+            document.getElementById('donation').addEventListener('keyup', function() {
+                console.log('Donation changed', this.value);
+
+                updateTotalPrice();
+            });
+        </script>
+
+   
+        @auth 
+            @if (Auth::user()->role_id == 3)
+                <form id="submit_form" method="post" action="/transactions/notification">
+                    @csrf
+                    <input type="hidden" name="json" id="json_callback">
+                </form>
+        
+                <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
+
+                <script>
+                    document.getElementById('pay-button').addEventListener('click', function () {
+                        // Ambil data dari form atau cart
+
+                        const eventId = parseInt(document.getElementById('event_id_payload').value)
+                        const totalPrice = parseInt(document.getElementById('total_price_payload').value)
+
+                        const data = {
+                            'event_id': parseInt(eventId),
+                            'quantity': 1,
+                            'total_price': parseInt(totalPrice)
+                        };
+                
+                        fetch("{{ route('orders.store') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify(data)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.snap_token) {
+                                snap.pay(data.snap_token, {
+                                    onSuccess: function(result){
+                                        send_response_to_form(result);
+                                    },
+                                    onPending: function(result){
+                                        send_response_to_form(result);
+                                    },
+                                    onError: function(result){
+                                        send_response_to_form(result);
+                                    },
+                                    onClose: function(){
+                                        alert('You closed the popup without finishing the payment');
+                                    }
+                                });
+                            } else {
+                                alert('Pembayaran gagal');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    });
+
+                    function send_response_to_form(result){
+                        document.getElementById('json_callback').value = JSON.stringify(result);
+                        document.getElementById('submit_form').submit();
+                    }
+                </script>
+            @endif
+        @endauth
+    </div>
+</x-app-layout>

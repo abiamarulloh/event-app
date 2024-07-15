@@ -22,7 +22,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('event.store') }}" method="POST">
+                <form action="{{ route('event.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <!-- Title -->
                     <div class="mb-4">
@@ -34,12 +34,12 @@
                     <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label for="start-date" class="block text-sm font-medium mb-2">Waktu Mulai</label>
-                            <input type="date" id="start-date" name="start_date"
+                            <input type="datetime-local" id="start-date" name="start_date"
                                 class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div>
                             <label for="end-date" class="block text-sm font-medium mb-2">Waktu Akhir</label>
-                            <input type="date" id="end-date" name="end_date"
+                            <input type="datetime-local" id="end-date" name="end_date"
                                 class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
                         </div>
                     </div>
@@ -171,8 +171,16 @@
                         </div>
                     </div> --}}
 
-                    <!-- Add Event Button -->
                     <div>
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
+                            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help"  name="poster_image" id="file_input" type="file">
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG.</p>
+                        </div>
+                    </div>
+
+                    <!-- Add Event Button -->
+                    <div class="mt-5">
                         <button type="submit"
                             class="w-64 p-2.5 bg-blue-600 text-white rounded hover:bg-blue-700 focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50">
                             Buat Acara
