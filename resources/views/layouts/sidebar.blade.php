@@ -34,6 +34,15 @@
                </li>
 
                <li>
+                  <a href="/transactions" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('transactions.index') ? 'bg-gray-700 text-white hover:bg-gray-700' : '' }}">
+                     <svg class="w-6 h-6 text-gray-800 dark:text-white {{ request()->routeIs('transactions.index') ? 'bg-gray-700 text-white hover:bg-gray-700' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Zm4.996 2a1 1 0 0 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM11 8a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-6Zm-4.004 3a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM11 11a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-6Zm-4.004 3a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM11 14a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-6Z" clip-rule="evenodd"/>
+                      </svg>
+                     <span class="flex-1 ms-3 whitespace-nowrap">Daftar Transaksi</span>
+                  </a>
+               </li>
+
+               <li>
                   <a href="/presence" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('presence.index') ? 'bg-gray-700 text-white hover:bg-gray-700' : '' }}">
                      <svg class="w-6 h-6 text-gray-800 dark:text-white {{ request()->routeIs('presence.index') ? 'bg-gray-700 text-white hover:bg-gray-700' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6h8m-8 6h8m-8 6h8M4 16a2 2 0 1 1 3.321 1.5L4 20h5M4 5l2-1v6m-2 0h4"/>

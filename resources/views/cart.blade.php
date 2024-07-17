@@ -30,12 +30,24 @@
 
         <div class="container mx-auto p-6 pb-20">
             <!-- Cart Item -->
+            <div class="flex items-center p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">
+                <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <ul>
+                    <li>1. Hanya satu event per-transaksi. Hapus yang sudah ada untuk mendaftar yang lain.</li>
+                    <li><hr></li>
+                    <li>2. Tunggu event yang sudah didaftar selesai sebelum mendaftar yang sama.</li>
+                </ul>
+            </div>
 
             @if($cartItems->isEmpty())
                 <div class="max-w-md flex flex-col items-center justify-center h-[400px]">
                     <p class="text-gray-600 text-center">Keranjang kosong.</p>
                 </div>
             @else
+              
+
                 @foreach($cartItems as $cartItem)
                    <a href="{{ route('event-register', $cartItem->event->slug) }}">
                         <div class="bg-white shadow-md rounded-lg p-4 mb-4 h-200">

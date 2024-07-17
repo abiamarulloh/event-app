@@ -44,6 +44,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     // Route::post('/request/approval/{uniqueCode}', [OrderController::class, 'requestAccess'])->name('request-approval');
     Route::post('/transactions/notification', [TransactionController::class, 'notification'])->name('transactions.notification');
+    Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 
     Route::post('/event-request', [EventRequestController::class, 'requestApproval'])->name('event.request.approval');
     Route::resource('presence', PresenceController::class);

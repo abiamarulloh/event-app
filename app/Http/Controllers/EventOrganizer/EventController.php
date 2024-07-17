@@ -124,6 +124,9 @@ class EventController extends Controller
         ]);
 
         if ($request->hasFile('poster_image')) {
+            if ($event->poster_image) {
+                Storage::delete('public/events/' . $event->poster_image);
+            }
             $imagePosterName = time().'.'.$request->poster_image->extension();
             $request->poster_image->storeAs('public/events', $imagePosterName);
         } else {

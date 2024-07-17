@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Event;
 use App\Models\Order;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -11,6 +12,12 @@ use Illuminate\Support\Facades\Redirect;
 
 class TransactionController extends Controller
 {
+    public function index()
+    {
+        $transactions = Transaction::with('order')->get();
+        return view('event_organizer.transactions.index', compact('transactions'));
+    }
+
     public function notification(Request $request)
     {
         $payload = $request->all()['json'];
