@@ -1,0 +1,18 @@
+FROM laravelsail/php80-composer:latest
+
+WORKDIR /var/www
+
+COPY composer.json composer.json
+COPY composer.lock composer.lock
+
+RUN composer install --prefer-dist --no-scripts --no-dev -o
+
+COPY . .
+
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
+
+EXPOSE 8000
+
+CMD ["php", "artisan", "serve", "--host", "0.0.0.0", "--port", "8000"]
