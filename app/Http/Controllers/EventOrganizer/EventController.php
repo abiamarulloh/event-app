@@ -29,7 +29,7 @@ class EventController extends Controller
     {
         $categories = Category::all();
         $isAdmin = Auth::user()->role_id == 1;
-        $users = User::all();
+        $users = User::all()->where('role_id', 2);
         return view('event_organizer.events.create', compact('categories', 'isAdmin', 'users'));
     }
 
@@ -48,21 +48,32 @@ class EventController extends Controller
             'quota' => 'required',
             'price' => 'required',
             'location' => 'required',
-            'poster_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'poster_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'fundraising_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'fundraising_title' => 'nullable|string|max:200',
+            'fundraising_description' => 'nullable|string|max:200',
+            'fundraising_target' => 'nullable|numeric'
         ]);
 
         if ($request->hasFile('poster_image')) {
-            $imageName = time().'.'.$request->poster_image->extension();
-            $request->poster_image->storeAs('public/events', $imageName);
+            $imagePosterName = time().'.'.$request->poster_image->extension();
+            $request->poster_image->storeAs('public/events', $imagePosterName);
         } else {
-            $imageName = null;
+            $imagePosterName = null;
+        }
+
+        if ($request->hasFile('fundraising_image')) {
+            $imageFundraisingName = time().'.'.$request->fundraising_image->extension();
+            $request->fundraising_image->storeAs('public/fundraising', $imageFundraisingName);
+        } else {
+            $imageFundraisingName = null;
         }
         
-        $request['poster_image'] = $imageName;
+        $data = $request->all();
+        $data['poster_image'] = $imagePosterName;
+        $data['fundraising_image'] = $imageFundraisingName;
 
-        dd($request->all());
-
-        Event::create($request->all());
+        Event::create($data);
 
         flash()->flash('success', 'Acara berhasil dibuat.');
         return redirect()->route('event.index');
@@ -84,7 +95,7 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $categories = Category::all();
         $isAdmin = Auth::user()->role_id == 1;
-        $users = User::all();
+        $users = User::all()->where('role_id', 2);
         return view('event_organizer.events.edit', compact('event', 'categories', 'isAdmin', 'users'));
     }
 

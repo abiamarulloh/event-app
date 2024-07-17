@@ -199,7 +199,7 @@
                 document.getElementById('total_price_payload').value = totalPrice;
             }
 
-            document.getElementById('donation').addEventListener('keyup', function() {
+            document.getElementById('donation')?.addEventListener('keyup', function() {
                 console.log('Donation changed', this.value);
 
                 updateTotalPrice();
@@ -217,7 +217,7 @@
                 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
 
                 <script>
-                    document.getElementById('pay-button').addEventListener('click', function () {
+                    document.getElementById('pay-button')?.addEventListener('click', function () {
                         // Ambil data dari form atau cart
 
                         const eventId = parseInt(document.getElementById('event_id_payload').value)

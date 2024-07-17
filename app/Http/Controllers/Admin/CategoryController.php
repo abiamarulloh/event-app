@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\EventOrganizer;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Flasher\Prime\FlasherInterface;
 
 class CategoryController extends Controller
 {
@@ -15,7 +14,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view('event_organizer.category.index', compact('categories'));
+        return view('admin.category.index', compact('categories'));
     }
 
     /**
@@ -23,7 +22,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('event_organizer.category.create');
+        return view('admin.category.create');
     }
 
     /**
@@ -48,7 +47,7 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        return view('event_organizer.category.show');
+        return view('admin.category.show');
     }
 
     /**
@@ -57,7 +56,7 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
         $category = Category::findOrFail($id);
-        return view('event_organizer.category.edit', compact('category'));
+        return view('admin.category.edit', compact('category'));
     }
 
     /**

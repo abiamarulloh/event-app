@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\EventOrganizer\CategoryController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventOrganizer\EventController;
+use App\Http\Controllers\EventOrganizer\PresenceController;
+use App\Http\Controllers\EventRequestController;
 use App\Http\Controllers\ExploreController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
@@ -22,9 +25,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
 
     // For Event Organizer
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('event', EventController::class);
     Route::delete('/event/{id}/delete-image', 'EventController@deleteImage')->name('event.deleteImage');
@@ -41,7 +42,15 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/history', [OrderController::class, 'index'])->name('history');
     Route::get('/history/order/{invoiceId}', [OrderController::class, 'show'])->name('history.detail');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    // Route::post('/request/approval/{uniqueCode}', [OrderController::class, 'requestAccess'])->name('request-approval');
     Route::post('/transactions/notification', [TransactionController::class, 'notification'])->name('transactions.notification');
+
+    Route::post('/event-request', [EventRequestController::class, 'requestApproval'])->name('event.request.approval');
+    Route::resource('presence', PresenceController::class);
+    Route::post('/event-request/{id}/approve', [PresenceController::class, 'approve'])->name('event.request.approve');
+    Route::post('/event-request/{id}/reject', [PresenceController::class, 'reject'])->name('event.request.reject');
+    Route::post('/event-request/{id}/pending', [PresenceController::class, 'pending'])->name('event.request.pending');
+
 });
 
 require __DIR__.'/auth.php';

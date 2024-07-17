@@ -160,7 +160,7 @@
                 @endif
 
                 @auth 
-                    @if (Auth::user()->role_id == 3)
+                    @if (Auth::user()->role_id == 3 && $event->status === 'published')
                         <div tabindex="-1" class="fixed bottom-0 start-0 z-50 flex justify-between w-full p-6 border-b border-gray-200">
                             <div class="max-w-md w-full px-0 sm:px-8 mx-auto">
                                 @if ($alreadyAddedCart) 

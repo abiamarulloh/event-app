@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\EventRequest;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Midtrans\Snap;
@@ -31,13 +32,12 @@ class OrderController extends Controller
             'total_price' => 'required|integer|min:1',
         ]);
 
-        // $event = Event::find($request->event_id);
-
         $order = Order::create([
             'user_id' => auth()->id(),
             'event_id' => $request->event_id,
             'quantity' => $request->quantity,
             'total_price' => $request->total_price,
+            'status_attend' => 'waiting'
         ]);
 
         $params = [
@@ -66,11 +66,29 @@ class OrderController extends Controller
         ->where('id', $id)
         ->with(['event', 'transactions'])
         ->first();
-
+        
         if (!$order) {
             abort(404);
         }
 
-        return view('order-detail', compact('order'));
+        $requestApproval = EventRequest::where('order_id', $order->id)->first();
+
+        return view('order-detail', compact('order', 'requestApproval'));
     }
+
+    // public function requestAccess($uniqueCode)
+    // {
+    //     $order = Order::where('unique_code', $uniqueCode)
+    //     ->where('user_id', auth()->id())
+    //     ->first();
+
+    //     if (!$order) {
+    //         abort(404);
+    //     }
+
+    //     $order->status_attend = 'approved';
+    //     $order->save();
+
+    //     return redirect()->route('history.detail', $order->id);
+    // }
 }

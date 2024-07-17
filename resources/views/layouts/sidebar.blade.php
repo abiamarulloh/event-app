@@ -1,4 +1,4 @@
-<aside id="default-sidebar" class="fixed top-0 sm:left-0 z-40 w-64 h-screen transition-transform -translate-x-full {{ request()->path() === '/' || request()->path() === 'schedule' || request()->path() === 'history' || request()->path() === 'profile' ? '' : 'sm:translate-x-0'}}" aria-label="Sidebar">
+<aside id="default-sidebar" class="fixed top-0 sm:left-0 z-[999] w-64 h-screen transition-transform -translate-x-full {{ request()->path() === '/' || request()->path() === 'schedule' || request()->path() === 'history' || request()->path() === 'profile' ? '' : 'sm:translate-x-0'}}" aria-label="Sidebar">
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
        <ul class="space-y-2 font-medium">
           <!-- Settings Dropdown -->
@@ -30,6 +30,15 @@
                         <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z"/>
                      </svg>
                      <span class="flex-1 ms-3 whitespace-nowrap">Acara</span>
+                  </a>
+               </li>
+
+               <li>
+                  <a href="/presence" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('presence.index') ? 'bg-gray-700 text-white hover:bg-gray-700' : '' }}">
+                     <svg class="w-6 h-6 text-gray-800 dark:text-white {{ request()->routeIs('presence.index') ? 'bg-gray-700 text-white hover:bg-gray-700' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6h8m-8 6h8m-8 6h8M4 16a2 2 0 1 1 3.321 1.5L4 20h5M4 5l2-1v6m-2 0h4"/>
+                      </svg>
+                     <span class="flex-1 ms-3 whitespace-nowrap">Daftar Hadir</span>
                   </a>
                </li>
             @endif

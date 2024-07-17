@@ -14,11 +14,11 @@ class ExploreController extends Controller
     //
     public function index(Request $request): View
     {
-        $ip = file_get_contents('https://api.ipify.org');
-        $currentUserInfo = Location::get($ip);
+        // $ip = file_get_contents('https://api.ipify.org');
+        // $currentUserInfo = Location::get('127.0.0.1');
         $categories = Category::all();
         $events = Event::with('category')->get();
-        return view('explore', compact('currentUserInfo', 'categories', 'events'));
+        return view('explore', compact('categories', 'events'));
     }
 
     public function show(String $slug ): View

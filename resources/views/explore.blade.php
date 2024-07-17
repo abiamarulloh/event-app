@@ -19,7 +19,7 @@
             </div>
         @endguest
 
-        <div class="bg-[#0CA035] min-h-44 rounded-b-[33px] relative">
+        <div class="bg-[#0CA035] min-h-20 left-0 right-0 max-w-md mx-auto fixed z-50">
             <div class="flex flex-col">
                 <div class="w-full rounded-lg overflow-hidden flex items-center justify-between px-6 pt-4">
                     <svg data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar"
@@ -32,19 +32,19 @@
 
                     <div class="px-4 py-2 text-white text-center mx-auto cursor-pointer">
                         <div class="flex items-center justify-center">
-                            <h3 class="text-xs font-regular">
-                                Current Location
+                            <h3 class="text-lg font-medium">
+                                Event App
                             </h3>
-                            <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true"
+                            {{-- <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                 viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="m8 10 4 4 4-4" />
-                            </svg>
+                            </svg> --}}
                         </div>
 
-                        <p class="text-sm font-medium">{{ $currentUserInfo->cityName }},
-                            {{ $currentUserInfo->regionName }}</p>
+                        {{-- <p class="text-sm font-medium">{{ $currentUserInfo->cityName }},
+                            {{ $currentUserInfo->regionName }}</p> --}}
                     </div>
 
                     <button type="button"
@@ -63,7 +63,7 @@
                     </button>
                 </div>
 
-                <form class="w-full mx-auto px-6 mt-3">
+                {{-- <form class="w-full mx-auto px-6 mt-3">
                     <label for="default-search"
                         class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                     <div class="relative">
@@ -78,29 +78,24 @@
                             class="block w-full p-4 ps-10 text-sm text-white border placeholder:text-white border-0 rounded-lg focus:ring-green-500 focus:border-green-500  bg-[#0CA035]"
                             placeholder="Search Event..." required />
                     </div>
-                </form>
+                </form> --}}
 
-                <div class="overflow-x-hidden">
+                {{-- <div class="overflow-x-hidden">
                     <div class="flex overflow-x-auto space-x-4 px-4 absolute bottom-[-15px]">
                         @foreach ($categories as $category)
-                            <!-- Kategori 1 -->
                             <div class="flex-shrink-0 flex items-center gap-x-2 text-white font-medium rounded-full shadow-sm px-4"
                                 style="background-color: {{ $category->color }};">
                                 <div class="w-10 h-10 bg-gray-200 rounded-full flex my-2 items-center justify-center ">
-                                    <!-- Ganti dengan ikon yang sesuai -->
-                                    {{-- <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                        </svg> --}}
                                 </div>
                                 <span class="block text-sm text-white mt-1">{{ $category->name }}</span>
                             </div>
                         @endforeach
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
 
-        <div class="my-[46px] px-4">
+        <div class="my-[46px] px-4 mt-[100px]">
             <div class="flex  items-center gap-3">
                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10.827 5.465-.435-2.324m.435 2.324a5.338 5.338 0 0 1 6.033 4.333l.331 1.769c.44 2.345 2.383 2.588 2.6 3.761.11.586.22 1.171-.31 1.271l-12.7 2.377c-.529.099-.639-.488-.749-1.074C5.813 16.73 7.538 15.8 7.1 13.455c-.219-1.169.218 1.162-.33-1.769a5.338 5.338 0 0 1 4.058-6.221Zm-7.046 4.41c.143-1.877.822-3.461 2.086-4.856m2.646 13.633a3.472 3.472 0 0 0 6.728-.777l.09-.5-6.818 1.277Z"/>

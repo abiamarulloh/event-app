@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Event extends Model
 {
@@ -36,7 +37,8 @@ class Event extends Model
         'terms_and_conditions',
         'speaker',
         'agenda',
-        'image'
+        'image',
+        'unique_code'
     ];
 
     public function category()
@@ -78,5 +80,35 @@ class Event extends Model
                 $event->slug = createSlug($event->title, get_class($event));
             }
         });
+
+        static::creating(function ($event) {
+            if (empty(trim($event->unique_code))) {
+                $event->unique_code = self::generateUniqueCode();
+            }
+        });
+
+        static::updating(function ($event) {
+            if (empty(trim($event->unique_code))) {
+                $event->unique_code = self::generateUniqueCode();
+            }
+        });
+    }
+
+    public static function generateUniqueCode()
+    {
+        $code = strtoupper(Str::random(6));
+
+        // Ensure the code is unique
+        while (self::where('unique_code', $code)->exists()) {
+            $code = strtoupper(Str::random(6));
+        }
+
+        return $code;
+    }
+
+    // Relasi dengan EventRequest
+    public function eventRequests()
+    {
+        return $this->hasMany(EventRequest::class);
     }
 }
