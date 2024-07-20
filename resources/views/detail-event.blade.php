@@ -124,7 +124,7 @@
                     </div>
                 </div>
 
-                <h3 class="text-gray-800 font-bold mt-5">Tentang Acara </h3>
+                <h3 class="text-gray-800 font-bold mt-5">Tentang Acara</h3>
                 <p class="mb-3 font-normal text-gray-500 dark:text-gray-400 text-justify">{{ $event->description }}</p>
             
                 @if ($event->fundraising_title && $event->fundraising_target)
