@@ -1,18 +1,30 @@
-FROM laravelsail/php80-composer:latest
+# Use the official PHP image as the base image
+FROM php:8.0-fpm
 
+# Set working directory
 WORKDIR /var/www
 
-COPY composer.json composer.json
-COPY composer.lock composer.lock
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    unzip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_mysql gd
 
-RUN composer install --prefer-dist --no-scripts --no-dev -o
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-COPY . .
+# Copy existing application directory contents
+COPY . /var/www
 
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
+# Copy existing application directory permissions
+COPY --chown=www-data:www-data . /var/www
 
-EXPOSE 8000
-
-CMD ["php", "artisan", "serve", "--host", "0.0.0.0", "--port", "8000"]
+# Expose port 9000 and start php-fpm server
+EXPOSE 9000
+CMD ["php-fpm"]
