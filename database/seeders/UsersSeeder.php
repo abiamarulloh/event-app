@@ -23,19 +23,19 @@ class UsersSeeder extends Seeder
         $users = [
             [
                 'name' => 'John Doe',
-                'email' => 'johndoe@example.com',
+                'email' => 'jhon@mailinator.com',
                 'password' => Hash::make('password'),
                 'role_id' => $adminRole->id, // Assign admin role
             ],
             [
                 'name' => 'Jane Doe',
-                'email' => 'janedoe@example.com',
+                'email' => 'jane@mailinator.com',
                 'password' => Hash::make('password'),
                 'role_id' => $eventOrganizerRole->id, // Assign moderator role
             ],
             [
                 'name' => 'Michael Doe',
-                'email' => 'micel@example.com',
+                'email' => 'micel@mailinator.com',
                 'password' => Hash::make('password'),
                 'role_id' => $attenderRole->id, // Assign attender role
             ],
