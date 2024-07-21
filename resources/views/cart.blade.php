@@ -245,7 +245,8 @@
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'referrerPolicy': "unsafe-url"
                             },
                             body: JSON.stringify(data)
                         })
