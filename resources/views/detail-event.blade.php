@@ -63,8 +63,8 @@
                     </div>
 
                     <div>
-                        <p>{{ \Carbon\Carbon::parse($event->start_date)->format('l, d F Y') }}</p>
-                        <p>{{ \Carbon\Carbon::parse($event->end_date)->format('l, d F Y')  }}</p>
+                        <p>{{ \Carbon\Carbon::parse($event->start_date)->format('l, d F Y, H:i') }}</p>
+                        <p>{{ \Carbon\Carbon::parse($event->end_date)->format('l, d F Y, H:i')  }}</p>
                     </div>
                 </div>
 
@@ -125,7 +125,7 @@
                 </div>
 
                 <h3 class="text-gray-800 font-bold mt-5">Tentang Acara</h3>
-                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400 text-justify">{{ $event->description }}</p>
+                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400 text-justify">{!! $event->description !!}</p>
             
                 @if ($event->fundraising_title && $event->fundraising_target)
                     <div class="flex items-center p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">

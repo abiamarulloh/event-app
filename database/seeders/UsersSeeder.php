@@ -22,20 +22,20 @@ class UsersSeeder extends Seeder
         // Create some basic users
         $users = [
             [
-                'name' => 'John Doe',
-                'email' => 'jhon@mailinator.com',
+                'name' => 'Abi Amarulloh',
+                'email' => 'abi@mailinator.com',
                 'password' => Hash::make('password'),
                 'role_id' => $adminRole->id, // Assign admin role
             ],
             [
-                'name' => 'Jane Doe',
-                'email' => 'jane@mailinator.com',
+                'name' => 'Novita Murliani',
+                'email' => 'novita@mailinator.com',
                 'password' => Hash::make('password'),
-                'role_id' => $eventOrganizerRole->id, // Assign moderator role
+                'role_id' => $eventOrganizerRole->id, // Assign event organizer role
             ],
             [
-                'name' => 'Michael Doe',
-                'email' => 'micel@mailinator.com',
+                'name' => 'Muhammad Aldi',
+                'email' => 'aldi@mailinator.com',
                 'password' => Hash::make('password'),
                 'role_id' => $attenderRole->id, // Assign attender role
             ],

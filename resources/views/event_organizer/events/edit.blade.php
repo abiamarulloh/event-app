@@ -137,11 +137,7 @@
 
                     <!-- Description -->
                     <div class="mb-4">
-                        <label for="description" class="block text-sm font-medium mb-2">Deskripsi</label>
-                        <textarea id="description" rows="4"
-                             name="description"
-                            class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Buat deskripsi tentang acara mu...">{{ $event->description }}</textarea>
+                        <x-tinymce-textarea name="description" label="Deskripsi" value="{!! $event->description !!}" placeholder="Buat deskripsi tentang acara mu..." />
                     </div>
 
                     <!-- Reminder -->
@@ -164,22 +160,12 @@
 
                     <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="terms_and_conditions" class="block text-sm font-medium mb-2">Peraturan dan Persyaratan</label>
-                            <textarea id="terms_and_conditions" rows="4"
-                            name="terms_and_conditions"
-                           class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500"
-                           placeholder="Peraturan dan persyaratan pada event mu...">{{ $event->terms_and_conditions }}</textarea>
+                            <x-tinymce-textarea name="terms_and_conditions" label="Peraturan dan Persyaratan" value="{!! $event->terms_and_conditions !!}" placeholder="Peraturan dan persyaratan pada event mu..." />
                         </div>
 
                         <div>
-                            <label for="agenda" class="block text-sm font-medium mb-2">Agenda</label>
-                            <textarea id="agenda" rows="4"
-                            name="agenda"
-                           class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500"
-                           placeholder="Jadwalkan event mu dengan rinci...">{{ $event->agenda }}</textarea>
+                            <x-tinymce-textarea name="agenda" label="Agenda" value="{!! $event->agenda !!}" placeholder="Jadwalkan event mu dengan rinci..." />
                         </div>
-
-                       
                     </div>
 
                     <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -188,7 +174,7 @@
                             <input type="text" id="speaker" value="{{ $event->speaker }}" name="speaker" class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
                         </div>
 
-                        <div>
+                        <div class="hidden">
                             <label for="link_registration" class="block text-sm font-medium mb-2">Link Registration</label>
                             <input type="text" value="{{ $event->link_registration}}" readonly id="link_registration" name="link_registration" class="w-full border-0 p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
                         </div>
@@ -225,6 +211,8 @@
                        </div>
                     </div>
 
+
+                    <hr class="my-5" />
                    
                     <div>
                         <label for="is_fundraising" class="block text sm font-medium mb-2">Apakah acara ini menggalang dana ?</label>
@@ -262,11 +250,7 @@
 
                     <div class="mb-4 grid grid-cols-1 gap-4">
                         <div>
-                            <label for="fundraising_description" class="block text-sm font-medium mb-2">Deskripsi Penggalangan Dana</label>
-                            <textarea id="fundraising_description" rows="4"
-                            name="fundraising_description" maxlength="200"
-                        class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Deskripsi penggalangan dana pada event mu...">{{ $event->fundraising_description }}</textarea>
+                            <x-tinymce-textarea name="fundraising_description" label="Deskripsi Penggalangan Dana" value="{!! $event->fundraising_description !!}" placeholder="Deskripsi penggalangan dana pada event mu..." />
                         </div>
                     </div>
 

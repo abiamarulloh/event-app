@@ -41,6 +41,8 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
+
+        <x-head.tinymce-config/>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-[#FFFFF] light:bg-[#FFFFF] shadow-sm">
