@@ -40,6 +40,7 @@ class OrderController extends Controller
             'status_attend' => 'waiting'
         ]);
 
+
         $params = [
             'transaction_details' => [
                 'order_id' => $order->id,
@@ -47,7 +48,7 @@ class OrderController extends Controller
             ],
             'customer_details' => [
                 'first_name' => auth()->user()->name,
-                'email' => auth()->user()->email,
+                'email' => auth()->user()->email
             ],
         ];
 

@@ -124,6 +124,6 @@ return [
     ],
 
     // 'providers' => [
-    //     App\Providers\MidtransServiceProvider::class,
-    // ],
+    //     App\Providers\EventServiceProvider::class
+    // ]
 ];

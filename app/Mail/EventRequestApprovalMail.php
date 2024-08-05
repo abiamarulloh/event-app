@@ -5,7 +5,6 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\EventRequest;
 
 class EventRequestApprovalMail extends Mailable
 {
@@ -18,7 +17,7 @@ class EventRequestApprovalMail extends Mailable
      *
      * @return void
      */
-    public function __construct(EventRequest $eventRequest)
+    public function __construct($eventRequest)
     {
         $this->eventRequest = $eventRequest;
     }

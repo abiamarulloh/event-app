@@ -21,7 +21,7 @@ class EventRequestFeedbackApprovalMail extends Mailable
      *
      * @return void
      */
-    public function __construct(EventRequest $eventRequestFeedback)
+    public function __construct($eventRequestFeedback)
     {
         $this->eventRequestFeedback = $eventRequestFeedback;
     }

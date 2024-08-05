@@ -11,6 +11,6 @@
     <p>Terima kasih atas partisipasi Anda!</p>
     <p>Best regards,</p>
     <p>Abi Amarulloh,</p>
-    <p>CTO EventApp</p>
+    <p>CTO EventKu</p>
 </body>
 </html>
