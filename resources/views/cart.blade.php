@@ -29,33 +29,39 @@
         </div>
 
         <div class="container mx-auto p-6 pb-20">
-            <!-- Cart Item -->
-            <div class="flex items-center p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">
-                <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                </svg>
-                <ul>
-                    <li>1. Hanya satu event per-transaksi. Hapus yang sudah ada untuk mendaftar yang lain.</li>
-                    <li><hr></li>
-                    <li>2. Tunggu event yang sudah didaftar selesai sebelum mendaftar yang sama.</li>
-                </ul>
-            </div>
-
-            @if($cartItems->isEmpty())
-                <div class="max-w-md flex flex-col items-center justify-center h-[400px]">
-                    <p class="text-gray-600 text-center">Keranjang kosong.</p>
+                <!-- Cart Item -->
+                <div class="flex items-center p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">
+                    <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                    </svg>
+                    <ul>
+                        <li>1. Hanya satu event per-transaksi. Hapus yang sudah ada untuk mendaftar yang lain.</li>
+                        <li><hr></li>
+                        <li>2. Tunggu event yang sudah didaftar selesai sebelum mendaftar yang sama.</li>
+                    </ul>
                 </div>
-            @else
-              
+
+                @if($cartItems->isEmpty())
+                    <div class="max-w-md flex flex-col items-center justify-center h-[400px]">
+                        <p class="text-gray-600 text-center">Keranjang kosong.</p>
+                    </div>
+                @else
 
                 @foreach($cartItems as $cartItem)
-                   <a href="{{ route('event-register', $cartItem->event->slug) }}">
+                    <a href="{{ route('event-register', $cartItem->event->slug) }}">
                         <div class="bg-white shadow-md rounded-lg p-4 mb-4 h-200">
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center">
                                     <div>
                                         <h2 class="text-lg font-semibold">{{ $cartItem->event->title }}</h2>
-                                        <p class="text-sm text-gray-600 price">@currency($cartItem->event->price)</p>
+                                        <p class="text-sm text-gray-600 price">
+                                            @if ($cartItem->event->sponsorship_title && $cartItem->event->fundraising_target)
+                                                <span style="text-decoration: line-through">@currency($cartItem->event->price)</span>
+                                                @currency($cartItem->event->sponsorship_target - ($cartItem->event->price * $cartItem->event->quota))
+                                            @else
+                                                @currency($cartItem->event->price) 
+                                            @endif
+                                        </p>
                                     </div>
                                 </div>
 
@@ -63,7 +69,7 @@
                                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 14v4.833A1.166 1.166 0 0 1 16.833 20H5.167A1.167 1.167 0 0 1 4 18.833V7.167A1.166 1.166 0 0 1 5.167 6h4.618m4.447-2H20v5.768m-7.889 2.121 7.778-7.778"/>
                                     </svg>
-    
+
                                     <form action="{{ route('cart.remove', $cartItem->id) }}" method="POST" class="inline-block">
                                         @csrf
                                         @method('DELETE')
@@ -74,7 +80,7 @@
                                         </button>
                                     </form>
                                 </div>
-                                  
+                                    
                                 {{-- <div class="flex items-center">
                                     <button class="text-gray-700 bg-gray-200 hover:bg-gray-300 p-2 rounded-l" onclick="decreaseQty(this, {{ $cartItem->id }}, {{ $cartItem->event->price }})">-</button>
                                     <input type="number" class="w-12 text-center border-0 qty" value="{{ $cartItem->quantity }}" readonly>
@@ -82,7 +88,7 @@
                                 </div> --}}
                             </div>
                         </div>
-                   </a>
+                    </a>
                 @endforeach
             
                 <!-- Additional Fees -->

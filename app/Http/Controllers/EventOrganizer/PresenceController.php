@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers\EventOrganizer;
 
+use App\Events\SendEmailEventRequestFeedback;
+use App\Events\SendEmailEventRequestStatusMail;
 use App\Http\Controllers\Controller;
-use App\Mail\EventRequestApprovalMail;
 use App\Mail\EventRequestStatusMail;
-use App\Models\Category;
 use App\Models\Event;
 use App\Models\EventRequest;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 
 class PresenceController extends Controller
 {
@@ -47,7 +45,14 @@ class PresenceController extends Controller
         $eventRequest->organizer = Auth::user();
         $eventRequest->attender =  $eventRequest->customer;
 
-        Mail::to($eventRequest->attender->email)->send(new EventRequestStatusMail($eventRequest));
+        $details = new \stdClass();
+        $details->status = $eventRequest->status;
+        $details->organizer = $eventRequest->organizer;
+        $details->attender = $eventRequest->attender;
+        $details->event = $eventRequest->event;
+
+        // Kirim email notifikasi balikan ke attender
+        event(new SendEmailEventRequestStatusMail($details, $eventRequest->attender->email));
 
         flash()->flash('success', 'Request approved!');
         return back();
@@ -62,7 +67,13 @@ class PresenceController extends Controller
         $eventRequest->organizer = Auth::user();
         $eventRequest->attender =  $eventRequest->customer;
 
-        Mail::to($eventRequest->attender->email)->send(new EventRequestStatusMail($eventRequest));
+        $details = new \stdClass();
+        $details->status = $eventRequest->status;
+        $details->organizer = $eventRequest->organizer;
+        $details->attender = $eventRequest->attender;
+        $details->event = $eventRequest->event;
+
+        event(new SendEmailEventRequestStatusMail($details, $eventRequest->attender->email));
 
         flash()->flash('success', 'Request rejected!');
         return back();
@@ -77,7 +88,13 @@ class PresenceController extends Controller
         $eventRequest->organizer = Auth::user();
         $eventRequest->attender =  $eventRequest->customer;
 
-        Mail::to($eventRequest->attender->email)->send(new EventRequestStatusMail($eventRequest));
+        $details = new \stdClass();
+        $details->status = $eventRequest->status;
+        $details->organizer = $eventRequest->organizer;
+        $details->attender = $eventRequest->attender;
+        $details->event = $eventRequest->event;
+
+        event(new SendEmailEventRequestStatusMail($details, $eventRequest->attender->email));
 
         flash()->flash('success', 'Request Canceled!');
         return back();

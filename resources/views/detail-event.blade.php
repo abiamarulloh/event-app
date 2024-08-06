@@ -31,7 +31,12 @@
                             @if ($event->price == 0)
                                 Gratis
                             @else
-                                @currency($event->price) 
+                                @if ($event->sponsorship_title && $event->fundraising_target)
+                                    <span style="text-decoration: line-through">@currency($event->price)</span>
+                                    @currency($event->sponsorship_target - ($event->price * $event->quota))
+                                @else
+                                    @currency($event->price) 
+                                @endif
                             @endif
                         </span>
                     @else
@@ -124,6 +129,21 @@
                     </div>
                 </div>
 
+                @if ($event->sponsorship_title)
+                    <div class="flex items-center gap-2 text-gray-500 mt-5">
+                        <div class="bg-[#eeefff] p-3 rounded-lg">
+                            <svg class="w-6 h-6 text-[#0CA035]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <p>{{ $event->sponsorship_title  }}</p>
+                            <p class="font-bold">Sponsor</p>
+                        </div>
+                    </div>
+                @endif
+
                 <h3 class="text-gray-800 font-bold mt-5">Tentang Acara</h3>
                 <p class="mb-3 font-normal text-gray-500 dark:text-gray-400 text-justify">{!! $event->description !!}</p>
             
@@ -149,6 +169,22 @@
                             </p>
                          </div>
                       
+                        </div>
+                    </div>
+                @endif
+
+                @if ($event->sponsorship_title && $event->fundraising_target)
+                    <div class="mt-5">
+                        <hr class="my-5">
+
+                        <h1 class="text-lg text-gray-800 mb-2">Sponsorship</h1>
+
+                        <img style="width: 100%" src="{{ $event->sponsorship_image ? Storage::url('sponsorship/' . $event->sponsorship_image) : 'https://i.pinimg.com/564x/82/7b/02/827b0246f4a0094b6798afeb02a64f0e.jpg' }}" alt="{{ $event->sponsorship_image }}" height="400px" />
+
+                        <div>
+                            <p class="font-medium text-lg mt-2">{{ $event->sponsorship_title  }}</p>
+                            <p class="font-bold text-gray-500">{!! $event->sponsorship_description !!}</p>
+                            <p class="font-bold text-gray-500">@currency($event->sponsorship_target) </p>
                         </div>
                     </div>
                 @endif

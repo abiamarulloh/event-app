@@ -18,7 +18,7 @@ class EventRequestStatusMail extends Mailable
      *
      * @return void
      */
-    public function __construct(EventRequest $eventRequestStatus)
+    public function __construct($eventRequestStatus)
     {
         $this->eventRequestStatus = $eventRequestStatus;
     }

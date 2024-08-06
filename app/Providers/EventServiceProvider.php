@@ -5,7 +5,9 @@ namespace App\Providers;
 use App\Events\SendEmailEventRequest;
 use App\Listeners\SendEmailEventRequestListener;
 use App\Events\SendEmailEventRequestFeedback;
+use App\Events\SendEmailEventRequestStatusMail;
 use App\Listeners\SendEmailEventRequestFeedbackListener;
+use App\Listeners\SendEmailEventRequestStatusMailListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 
@@ -24,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SendEmailEventRequestFeedback::class => [
             SendEmailEventRequestFeedbackListener::class,
+        ],
+        SendEmailEventRequestStatusMail::class => [
+            SendEmailEventRequestStatusMailListener::class,
         ]
     ];
 
@@ -45,6 +50,11 @@ class EventServiceProvider extends ServiceProvider
         Event::listen(
             SendEmailEventRequestFeedback::class,
             SendEmailEventRequestFeedbackListener::class
+        );
+
+        Event::listen(
+            SendEmailEventRequestStatusMail::class,
+            SendEmailEventRequestStatusMailListener::class
         );
     }
 }

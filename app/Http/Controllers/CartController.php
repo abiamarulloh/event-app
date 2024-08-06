@@ -13,12 +13,17 @@ class CartController extends Controller
     {
         $cartItems = Cart::where('user_id', Auth::id())->with('event')->get();
         $total = $cartItems->sum(function($cartItem) {
-            return $cartItem->event->price * $cartItem->quantity;
+            $price = $cartItem->event->price ;
+            if ($cartItem->event->sponsorship_title && $cartItem->event->fundraising_target) {
+                $price = $cartItem->event->sponsorship_target - ($cartItem->event->price * $cartItem->event->quota);
+            }
+
+            return $price * $cartItem->quantity;
         });
 
         $quantity = $cartItems->sum('quantity');
         $tax = 10000; // Misalnya nilai pajak
-        $serviceCharge = 5000; // Misalnya nilai service charge
+        $serviceCharge = 6000; // Misalnya nilai service charge
         $total += $tax + $serviceCharge;
 
         $snapToken = null;

@@ -39,7 +39,14 @@
 
                                     <div>
                                         <h3 class="text-lg font-semibold">{{ $order->event->title }}</h3>
-                                        <p class="text-gray-700">Price: @currency($order->event->price)</p>
+                                        <p class="text-gray-700">Price: 
+                                            @if ($order->event->sponsorship_title && $order->event->fundraising_target)
+                                                <span style="text-decoration: line-through">@currency($order->event->price)</span>
+                                                @currency($order->event->sponsorship_target - ($order->event->price * $order->event->quota))
+                                            @else
+                                                @currency($order->event->price) 
+                                            @endif
+                                        </p>
                                         <p class="text-gray-700">Quantity: {{ $order->quantity }}</p>
                                     </div>
                                 </div>

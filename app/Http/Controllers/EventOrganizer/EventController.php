@@ -52,7 +52,12 @@ class EventController extends Controller
             'fundraising_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'fundraising_title' => 'nullable|string|max:200',
             'fundraising_description' => 'nullable|string|max:200',
-            'fundraising_target' => 'nullable|numeric'
+            'fundraising_target' => 'nullable|numeric',
+            'sponsorship_target' => 'nullable|numeric',
+            'sponsorship_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'sponsorship_title' => 'nullable|string|max:200',
+            'sponsorship_description' => 'nullable|string|max:200',
+            'sponsorship_target' => 'nullable|numeric'
         ]);
 
         if ($request->hasFile('poster_image')) {
@@ -68,10 +73,18 @@ class EventController extends Controller
         } else {
             $imageFundraisingName = null;
         }
+
+        if ($request->hasFile('sponsorship_image')) {
+            $imageSponsorshipName = time().'.'.$request->sponsorship_image->extension();
+            $request->sponsorship_image->storeAs('public/sponsorship', $imageSponsorshipName);
+        } else {
+            $imageSponsorshipName = null;
+        }
         
         $data = $request->all();
         $data['poster_image'] = $imagePosterName;
         $data['fundraising_image'] = $imageFundraisingName;
+        $data['sponsorship_image'] = $imageSponsorshipName;
 
         Event::create($data);
 
@@ -120,7 +133,11 @@ class EventController extends Controller
             'fundraising_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'fundraising_title' => 'nullable|string|max:200',
             'fundraising_description' => 'nullable|string|max:200',
-            'fundraising_target' => 'nullable|numeric'
+            'sponsorship_target' => 'nullable|numeric',
+            'sponsorship_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'sponsorship_title' => 'nullable|string|max:200',
+            'sponsorship_description' => 'nullable|string|max:200',
+            'sponsorship_target' => 'nullable|numeric'
         ]);
 
         if ($request->hasFile('poster_image')) {
@@ -143,6 +160,17 @@ class EventController extends Controller
         } else {
             $imageFundraisingName = $event->fundraising_image;
         }
+
+        if ($request->hasFile('sponsorship_image')) {
+            // Hapus gambar dari penyimpanan jika ada
+            if ($event->sponsorship_image) {
+                Storage::delete('public/sponsorship/' . $event->sponsorship_image);
+            }
+            $imageSponsorshipName = time().'.'.$request->sponsorship_image->extension();
+            $request->sponsorship_image->storeAs('public/sponsorship', $imageSponsorshipName);
+        } else {
+            $imageSponsorshipName = $event->sponsorship_image;
+        }
         
         $event->fill($request->all());
         $event->poster_image = $imagePosterName;
@@ -151,6 +179,11 @@ class EventController extends Controller
         $event->fundraising_title = $request->fundraising_title;
         $event->fundraising_description = $request->fundraising_description;
         $event->fundraising_target = $request->fundraising_target;
+
+        $event->sponsorship_image = $imageSponsorshipName;
+        $event->sponsorship_title = $request->sponsorship_title;
+        $event->sponsorship_description = $request->sponsorship_description;
+        $event->sponsorship_target = $request->sponsorship_target;
 
         $event->save();
     

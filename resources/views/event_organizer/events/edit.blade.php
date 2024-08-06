@@ -212,6 +212,52 @@
                     </div>
 
 
+                    {{-- sponsorship Section --}}
+                    <hr class="my-5" />
+                   
+                    <div>
+                        <label for="is_sponsorship" class="block text sm font-medium mb-2">Apakah acara ini mendapat Sponsor ?</label>
+                        <p>*isi hanya jika kamu ingin menambahkan sponsor!</p>
+                    </div>
+
+                    <div class="mt-5">
+                        @if ($event->sponsorship_image)
+                                <img src="{{ Storage::url('sponsorship/' . $event->sponsorship_image) }}" alt="{{ $event->name }}" width="100">
+                                {{-- <form action="{{ route('event.deleteImage', ['id' => $event->id]) }}" method="PUT">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger mt-2">Delete Image</button>
+                                </form> --}}
+                            @endif
+                    </div>
+
+                    <div class="mb-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload Gambar</label>
+                            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help"  name="sponsorship_image" id="file_input" type="file">
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG.</p>
+                        </div>
+
+                        <div>
+                            <label for="sponsorship_title" class="block text-sm font-medium mb-2">Tujuan Sponsor</label>
+                            <input type="text" value="{{ $event->sponsorship_title}}" id="sponsorship_title" name="sponsorship_title" class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+
+                        <div>
+                            <label for="sponsorship_target" class="block text-sm font-medium mb-2">Jumlah yang disponsori</label>
+                            <input type="number" value="{{ $event->sponsorship_target}}" id="sponsorship_target" name="sponsorship_target" class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+
+                    <div class="mb-4 grid grid-cols-1 gap-4">
+                        <div>
+                            <x-tinymce-textarea name="sponsorship_description" label="Deskripsi Sponsorship" value="{!! $event->sponsorship_description !!}" placeholder="Deskripsi sponsorship pada event mu..." />
+                        </div>
+                    </div>
+                    {{-- sponsorship Section --}}
+
+
+                    {{-- Fundraising Section --}}
                     <hr class="my-5" />
                    
                     <div>
@@ -253,6 +299,8 @@
                             <x-tinymce-textarea name="fundraising_description" label="Deskripsi Penggalangan Dana" value="{!! $event->fundraising_description !!}" placeholder="Deskripsi penggalangan dana pada event mu..." />
                         </div>
                     </div>
+                    {{-- Fundraising Section --}}
+
 
                     <!-- Add Event Button -->
                     <div>

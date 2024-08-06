@@ -117,38 +117,43 @@
             @else
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 py-2 mb-[40px]">
                     @foreach ($events->where('status', 'published') as $event)
-                        <a href="{{ route('event-register', $event->slug) }}">
-                            <div class="bg-white w-full dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                                <div class="relative">
-                                    <span class="absolute right-0 top-3 bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Tersedia</span>
+                        @php
+                            $eventEndDate = \Carbon\Carbon::parse($event->end_date);
+                        @endphp
+                        @if (!$eventEndDate->isPast()) 
+                            <a href="{{ route('event-register', $event->slug) }}">
+                                <div class="bg-white w-full dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                                    <div class="relative">
+                                        <span class="absolute right-0 top-3 bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Tersedia</span>
 
-                                    <img src="{{ $event->poster_image ?Storage::url('events/' . $event->poster_image) : 'https://i.pinimg.com/564x/82/7b/02/827b0246f4a0094b6798afeb02a64f0e.jpg' }}"
-                                        alt="{{ $event->name }}" class="w-full h-44 object-cover object-center p-2 rounded-3xl" />
-                                        
-                                    <marquee behavior="" direction="" class="bg-blue-100 text-blue-800 text-sm font-medium absolute bottom-0"> {{ $event->fundraising_title }}</marquee>
-                                </div>
+                                        <img src="{{ $event->poster_image ?Storage::url('events/' . $event->poster_image) : 'https://i.pinimg.com/564x/82/7b/02/827b0246f4a0094b6798afeb02a64f0e.jpg' }}"
+                                            alt="{{ $event->name }}" class="w-full h-44 object-cover object-center p-2 rounded-3xl" />
+                                            
+                                        <marquee behavior="" direction="" class="bg-blue-100 text-blue-800 text-sm font-medium absolute bottom-0"> {{ $event->fundraising_title }}</marquee>
+                                    </div>
 
-                                <div class="flex flex-col pb-3 pl-3.5 pr-3.5 items-center justify-between">
-                                    <h3 class="md:text-md sm:text-lg  font-medium text-gray-900 dark:text-white">
-                                        {{ $event->title }}
-                                    </h3>
+                                    <div class="flex flex-col pb-3 pl-3.5 pr-3.5 items-center justify-between">
+                                        <h3 class="md:text-md sm:text-lg  font-medium text-gray-900 dark:text-white">
+                                            {{ $event->title }}
+                                        </h3>
 
-                                    <div class="w-full flex items-center justify-start gap-2 mt-4">
-                                        <svg class="w-6 h-6 text-gray-400 dark:text-white" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            fill="currentColor" viewBox="0 0 24 24">
-                                            <path fill-rule="evenodd"
-                                                d="M11.906 1.994a8.002 8.002 0 0 1 8.09 8.421 7.996 7.996 0 0 1-1.297 3.957.996.996 0 0 1-.133.204l-.108.129c-.178.243-.37.477-.573.699l-5.112 6.224a1 1 0 0 1-1.545 0L5.982 15.26l-.002-.002a18.146 18.146 0 0 1-.309-.38l-.133-.163a.999.999 0 0 1-.13-.202 7.995 7.995 0 0 1 6.498-12.518ZM15 9.997a3 3 0 1 1-5.999 0 3 3 0 0 1 5.999 0Z"
-                                                clip-rule="evenodd" />
-                                        </svg>
+                                        <div class="w-full flex items-center justify-start gap-2 mt-4">
+                                            <svg class="w-6 h-6 text-gray-400 dark:text-white" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="currentColor" viewBox="0 0 24 24">
+                                                <path fill-rule="evenodd"
+                                                    d="M11.906 1.994a8.002 8.002 0 0 1 8.09 8.421 7.996 7.996 0 0 1-1.297 3.957.996.996 0 0 1-.133.204l-.108.129c-.178.243-.37.477-.573.699l-5.112 6.224a1 1 0 0 1-1.545 0L5.982 15.26l-.002-.002a18.146 18.146 0 0 1-.309-.38l-.133-.163a.999.999 0 0 1-.13-.202 7.995 7.995 0 0 1 6.498-12.518ZM15 9.997a3 3 0 1 1-5.999 0 3 3 0 0 1 5.999 0Z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
 
-                                        <p class="text-xs font-medium text-gray-400 dark:text-white ml-2">
-                                            {{ $event->location }}
-                                        </p>
+                                            <p class="text-xs font-medium text-gray-400 dark:text-white ml-2">
+                                                {{ $event->location }}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        @endif
                     @endforeach
                     </div>
             @endif
