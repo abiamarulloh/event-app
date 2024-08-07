@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventOrganizer\EventController;
 use App\Http\Controllers\EventOrganizer\PresenceController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\ExploreController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\WithdrawalController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ExploreController::class, 'index'])->name('explore');
@@ -51,6 +53,9 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/event-request/{id}/approve', [PresenceController::class, 'approve'])->name('event.request.approve');
     Route::post('/event-request/{id}/reject', [PresenceController::class, 'reject'])->name('event.request.reject');
     Route::post('/event-request/{id}/pending', [PresenceController::class, 'pending'])->name('event.request.pending');
+
+    Route::resource('bank-accounts', BankAccountController::class)->only(['index', 'create', 'store']);
+    Route::resource('withdrawals', WithdrawalController::class)->only(['index', 'create', 'store', 'show', 'update']);
 
 });
 

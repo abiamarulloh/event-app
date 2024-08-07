@@ -13,6 +13,15 @@
                </a>
             </li>
 
+            <hr>
+
+            <li class="mx-1 flex flex-col items-center justify-evenly py-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  group">
+              <h3>{{ Auth::user()->name }}</h3>
+              <p class="mt-2 bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">{{ Auth::user()->role_id === 1 ? 'Admin' : 'Event Organizer' }}</p>
+            </li>
+
+            <hr>
+
             @if (Auth::user()->role_id === 1 || Auth::user()->role_id === 2)
                <li>
                   <a href="/dashboard" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('dashboard') ? 'bg-gray-700 text-white hover:bg-gray-700' : '' }}">
@@ -48,6 +57,27 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6h8m-8 6h8m-8 6h8M4 16a2 2 0 1 1 3.321 1.5L4 20h5M4 5l2-1v6m-2 0h4"/>
                       </svg>
                      <span class="flex-1 ms-3 whitespace-nowrap">Daftar Hadir</span>
+                  </a>
+               </li>
+
+               @if (Auth::user()->role_id === 2)
+               <li>
+                  <a href="/bank-accounts" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('bank-accounts.index') ? 'bg-gray-700 text-white hover:bg-gray-700' : '' }}">
+                      <svg class="w-6 h-6 text-gray-800 dark:text-white {{ request()->routeIs('bank-accounts.index') ? 'bg-gray-700 text-white hover:bg-gray-700' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 6H5m2 3H5m2 3H5m2 3H5m2 3H5m11-1a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2M7 3h11a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm8 7a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/>
+                      </svg>
+                      
+                     <span class="flex-1 ms-3 whitespace-nowrap">Akun Bank</span>
+                  </a>
+               </li>
+               @endif
+
+               <li>
+                  <a href="/withdrawals" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('withdrawals.index') ? 'bg-gray-700 text-white hover:bg-gray-700' : '' }}">
+                     <svg class="w-6 h-6 text-gray-800 dark:text-white {{ request()->routeIs('withdrawals.index') ? 'bg-gray-700 text-white hover:bg-gray-700' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8 7V6a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1M3 18v-7a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                      </svg>
+                     <span class="flex-1 ms-3 whitespace-nowrap">Penarikan Dana</span>
                   </a>
                </li>
             @endif
