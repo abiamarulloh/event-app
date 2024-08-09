@@ -25,6 +25,9 @@
                 <div class="bg-white rounded-lg shadow-md p-6">
                     <h2 class="text-xl font-semibold mb-4"><b>Order ID</b> : {{ $order->unique_order_id }}</h2>
                     <p class="text-gray-700 mb-2"><b>Status Pembayaran</b> : <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ $order->latestTransaction->status }}</span></p>
+                    <p class="text-gray-700 mb-2"><b>Status Kehadiran</b> :
+                        <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ $order->latestTransaction->status }}</span>
+                    </p>
                     <p class="text-gray-700 mb-2"><b>Waktu Order</b> : {{ $order->created_at->format('Y-m-d H:i:s') }}</p>
                     <p class="text-gray-700 mb-2"><b>Nama Lengkap</b> : {{ $order->user->name }}</p>
                     <p class="text-gray-700 mb-2"><b>Email</b> : {{ $order->user->email }}</p>

@@ -27,6 +27,11 @@
                             <button id="toggleFullscreenBtn" class="xs:w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 lg:ml-4 hidden">
                                 Go Full Screen
                             </button>
+
+                            <!-- Button to toggle camera -->
+                            <button id="toggleCameraBtn" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 ml-4 hidden">
+                                Switch Camera
+                            </button>
                         </div>
      
                          <style>
@@ -57,7 +62,7 @@
      
                          <!-- Section for QR Code scanner, initially hidden -->
                         <div id="scannerSection" class="mt-4 relative mx-auto flex justify-center hidden">
-                            <div id="reader" class="w-[400px] h-[300px] bg-gray-200 rounded-lg relative overflow-hidden">
+                            <div id="reader" class="w-[500px] bg-gray-200 rounded-lg relative overflow-hidden">
                             </div>
                             <div class="scanner-line"></div> <!-- Animated line -->
                             <form id="qrForm" action="{{ route('qr.scan') }}" method="POST" style="display: none;">
@@ -73,7 +78,10 @@
                                  var scannerSection = document.getElementById("scannerSection");
                                  var toggleScannerBtn = document.getElementById("toggleScannerBtn");
                                  var toggleFullscreenBtn = document.getElementById("toggleFullscreenBtn");
+                                 var toggleCameraBtn = document.getElementById("toggleCameraBtn");
                                  var scannerVisible = false;
+                                 var useFrontCamera = false; // Track the current camera
+
 
                                 // Check if BarcodeDetector is supported
                                 if ('BarcodeDetector' in window) {
@@ -96,16 +104,15 @@
                                             toggleScannerBtn.textContent = "Hide QR Code Scanner";
                                             toggleFullscreenBtn.classList.remove("hidden");
 
-                                            // Start the QR code scanner
-                                            html5QrCode.start({ facingMode: "environment" }, { fps: 10 }, onScanSuccess, onScanError)
-                                                .catch(err => {
-                                                    console.error(`Start failed: ${err}`);
-                                                });
+                                            toggleCameraBtn.classList.remove("hidden");
 
+                                            // Start the QR code scanner
+                                            startScanner();
                                         } else {
                                             scannerSection.classList.add("hidden");
                                             toggleScannerBtn.textContent = "Show QR Code Scanner";
                                             toggleFullscreenBtn.classList.add("hidden");
+                                            toggleCameraBtn.classList.add("hidden");
 
                                             // Stop the QR code scanner
                                             html5QrCode.stop().catch(err => {
@@ -124,6 +131,27 @@
                                             toggleFullscreenBtn.textContent = "Exit Full Screen";
                                         }
                                     });
+
+                                    // Toggle camera
+                                    toggleCameraBtn.addEventListener("click", function() {
+                                        useFrontCamera = !useFrontCamera; // Switch camera
+
+                                        console.log(useFrontCamera)
+
+                                        // Restart the QR code scanner with the new camera
+                                        html5QrCode.stop().then(() => {
+                                            startScanner();
+                                        }).catch(err => {
+                                            console.error(`Stop failed: ${err}`);
+                                        });
+                                    });
+                                }
+
+                                function startScanner() {
+                                    html5QrCode.start({ facingMode: useFrontCamera ? "user" : "environment" }, { fps: 10 }, onScanSuccess, onScanError)
+                                        .catch(err => {
+                                            console.error(`Start failed: ${err}`);
+                                        });
                                 }
 
                      
