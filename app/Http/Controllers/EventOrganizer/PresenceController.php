@@ -21,8 +21,9 @@ class PresenceController extends Controller
      */
     public function index()
     {
-        $events =  Event::with('category')
+        $events = Event::with('category')
         ->where('status', 'published')
+        ->where('user_id', auth()->id())  // 'events.' prefix tidak diperlukan di sini
         ->withCount('eventRequests')
         ->get();
 
@@ -130,7 +131,7 @@ class PresenceController extends Controller
             return redirect()->back();
         }
 
-        $eventRequestAlready = EventRequest::where('customer_id', $transaction->order->user_id)->first();
+        $eventRequestAlready = EventRequest::where('customer_id', $transaction->order->user_id)->where('event_id', $eventId)->first();
         if ($eventRequestAlready) {
             flash()->flash('warning', 'Data sudah masuk, check tabel!');
             return redirect()->back();

@@ -19,7 +19,7 @@ class EventController extends Controller
     public function index()
     {
         // $events = Event::all();
-        $events = Event::with('category')->get();
+        $events = Event::with('category')->where('user_id', auth()->id())->get();
         return view('event_organizer.events.index', compact('events'));
     }
 
@@ -31,7 +31,7 @@ class EventController extends Controller
         $categories = Category::all();
         $isAdmin = Auth::user()->role_id == 1;
         $users = User::all()->where('role_id', 2);
-        $additionalFees = AdditionalFee::all();
+        $additionalFees = AdditionalFee::where('user_id', auth()->id())->get();
         return view('event_organizer.events.create', compact('categories', 'isAdmin', 'users', 'additionalFees'));
     }
 
@@ -87,6 +87,7 @@ class EventController extends Controller
         $data['poster_image'] = $imagePosterName;
         $data['fundraising_image'] = $imageFundraisingName;
         $data['sponsorship_image'] = $imageSponsorshipName;
+        $data['user_id'] = auth()->id();
 
         Event::create($data);
 
@@ -111,7 +112,7 @@ class EventController extends Controller
         $categories = Category::all();
         $isAdmin = Auth::user()->role_id == 1;
         $users = User::all()->where('role_id', 2);
-        $additionalFees = AdditionalFee::all();
+        $additionalFees = AdditionalFee::where('user_id', auth()->id())->get();
         return view('event_organizer.events.edit', compact('event', 'categories', 'isAdmin', 'users', 'additionalFees'));
     }
 

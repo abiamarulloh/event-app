@@ -72,7 +72,7 @@
                                 </select>
                             </div>
                         @else
-                            <input type="hidden" name="user_id" value="2">
+                            {{-- <input type="hidden" name="user_id" value="2"> --}}
                         @endif
                     </div>
 

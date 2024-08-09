@@ -42,7 +42,7 @@
                     <select name="type" id="type" class="form-select w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
                         <option value="">Pilih tipe</option>
                         <option value="tax" {{ $additionalFee->type == 'tax' ? 'selected' : '' }}>Tax</option>
-                        <option value="charge" {{ $additionalFee->type == 'charge' ? 'selected' : '' }}>Charge</option>
+                        {{-- <option value="charge" {{ $additionalFee->type == 'charge' ? 'selected' : '' }}>Charge</option> --}}
                     </select>
                 </div>
         

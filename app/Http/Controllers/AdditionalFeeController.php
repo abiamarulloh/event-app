@@ -9,7 +9,7 @@ class AdditionalFeeController extends Controller
 {
     public function index()
     {
-        $additionalFees = AdditionalFee::all();
+        $additionalFees = AdditionalFee::where('user_id', auth()->id())->get();
         return view('event_organizer.additional-fees.index', compact('additionalFees'));
     }
 
@@ -26,7 +26,10 @@ class AdditionalFeeController extends Controller
             'fee' => 'required|numeric|min:0',
         ]);
 
-        AdditionalFee::create($request->all());
+        $data = $request->all();
+        $data['user_id'] = auth()->id();
+
+        AdditionalFee::create($data);
 
         flash()->flash('success', 'Data Berhasil dibuat');
         return redirect()->route('additional-fees.index');
@@ -45,7 +48,10 @@ class AdditionalFeeController extends Controller
             'fee' => 'required|numeric|min:0',
         ]);
 
-        $additionalFee->update($request->all());
+        $data = $request->all();
+        $data['user_id'] = auth()->id();
+
+        $additionalFee->update($data);
 
         flash()->flash('success', 'Data Berhasil diperbarui');
         return redirect()->route('additional-fees.index');

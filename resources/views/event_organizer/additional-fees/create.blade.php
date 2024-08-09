@@ -41,7 +41,7 @@
                     <select name="type" id="type" class="form-select w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
                         <option value="">Pilih tipe</option>
                         <option value="tax">Pajak</option>
-                        <option value="charge">Biaya Tambahan</option>
+                        {{-- <option value="charge">Biaya Tambahan</option> --}}
                     </select>
                 </div>
         

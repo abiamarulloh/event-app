@@ -25,6 +25,7 @@ class AdditionalFee extends Model
         'type',
         'name',
         'fee',
+        'user_id'
     ];
 
     /**

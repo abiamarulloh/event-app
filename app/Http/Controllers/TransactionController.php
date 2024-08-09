@@ -13,7 +13,10 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::with('order')->get();
+        $transactions = Transaction::whereHas('order', function($query) {
+            $query->where('event_organizer_id', auth()->id());
+        })->with('order')->get();
+        
         return view('event_organizer.transactions.index', compact('transactions'));
     }
 
