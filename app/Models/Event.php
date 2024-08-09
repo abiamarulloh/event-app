@@ -38,7 +38,8 @@ class Event extends Model
         'speaker',
         'agenda',
         'image',
-        'unique_code'
+        'unique_code',
+        'additional_fee_id'
     ];
 
     public function category()
@@ -111,4 +112,10 @@ class Event extends Model
     {
         return $this->hasMany(EventRequest::class);
     }
+
+     // Relasi dengan AdditionalFee
+     public function additionalFee()
+     {
+         return $this->belongsTo(AdditionalFee::class);
+     }
 }

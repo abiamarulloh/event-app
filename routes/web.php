@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\WithdrawalController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdditionalFeeController;
 
 Route::get('/', [ExploreController::class, 'index'])->name('explore');
 
@@ -44,6 +45,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/history', [OrderController::class, 'index'])->name('history');
     Route::get('/history/order/{invoiceId}', [OrderController::class, 'show'])->name('history.detail');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::post('/orders/store_zero_amount', [OrderController::class, 'store_zero_amount'])->name('orders.store_zero_amount');
     // Route::post('/request/approval/{uniqueCode}', [OrderController::class, 'requestAccess'])->name('request-approval');
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
     
@@ -57,6 +59,10 @@ Route::middleware('auth', 'verified')->group(function () {
     
     Route::resource('bank-accounts', BankAccountController::class)->only(['index', 'create', 'store']);
     Route::resource('withdrawals', WithdrawalController::class)->only(['index', 'create', 'store', 'show', 'update']);
+
+
+    Route::resource('additional-fees', AdditionalFeeController::class);
+
 });
 
 Route::post('/transactions/notification', [TransactionController::class, 'notification'])->name('transactions.notification');

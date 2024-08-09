@@ -92,17 +92,19 @@
                 @endforeach
             
                 <!-- Additional Fees -->
+                @if ($additionalFee)
                 <div class="bg-white shadow-md rounded-lg p-4 mb-6">
                     <h2 class="text-lg font-semibold mb-4">Biaya Tambahan</h2>
                     <div class="flex justify-between items-center mb-2">
                         <span>Tax</span>
-                        <span id="tax">Rp10.000</span>
+                        <span id="tax">{{ $additionalFee->fee }}%</span>
                     </div>
-                    <div class="flex justify-between items-center mb-2">
+                    {{-- <div class="flex justify-between items-center mb-2">
                         <span>Biaya Layanan</span>
                         <span id="service-charge">Rp6.000</span>
-                    </div>
+                    </div> --}}
                 </div>
+                @endif
 
                 @if($cartItems->first()->event->fundraising_title && $cartItems->first()->event->fundraising_target)
                     <div class="bg-white shadow-md rounded-lg p-4 mb-6">
@@ -141,56 +143,36 @@
                     <p id="total-price">@currency($total)</p>
                 </div>
                 
-                {{-- Data --}}
-                <input type="hidden" id="event_id_payload"  value="{{ $cartItems->first()->event->id }}">
-                <input type="hidden" id="total_price_payload"  value="{{ $total }}">
+                @if ($total == 0) 
+                    <form action="{{ route('orders.store_zero_amount') }}" method="POST">
+                        @csrf
+                        <input type="hidden" id="event_id_payload" name="event_id" value="{{ $cartItems->first()->event->id }}">
+                        <input type="hidden" id="total_price_payload" name="total_price" value="{{ $total }}">
+                        
+                        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex gap-2" type="submit">
+                            <p>Bayar</p>
+                            <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 12A2.5 2.5 0 0 1 21 9.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v2.5a2.5 2.5 0 0 1 0 5V17a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                            </svg>
+                        </button>
+                    </form>
+                @else
+                    {{-- Data --}}
+                    <input type="hidden" id="event_id_payload"  value="{{ $cartItems->first()->event->id }}">
+                    <input type="hidden" id="total_price_payload"  value="{{ $total }}">
                     
-                <button  id="pay-button" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex gap-2">
-                    <p>Bayar</p>
+                    <button  id="pay-button" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex gap-2">
+                        <p>Bayar</p>
 
-                    <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 12A2.5 2.5 0 0 1 21 9.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v2.5a2.5 2.5 0 0 1 0 5V17a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
-                    </svg>
-                </button>
+                        <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 12A2.5 2.5 0 0 1 21 9.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v2.5a2.5 2.5 0 0 1 0 5V17a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                        </svg>
+                    </button>
+                @endif
             </div>
         @endif
-
     
         <script>
-            // function updateQuantity(cartItemId, quantity, price) {
-            //     fetch(`/cart/update-quantity/${cartItemId}`, {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            //         },
-            //         body: JSON.stringify({ quantity: quantity })
-            //     })
-            //     .then(response => response.json())
-            //     .then(data => {
-            //         if (data.success) {
-            //             console.log('Quantity updated:', data.quantity);
-            //             // getTotalQty()
-            //             updateTotalPrice();
-            //         }
-            //     })
-            //     .catch(error => console.error('Error:', error));
-            // }
-
-            // function decreaseQty(button, cartItemId, price) {
-            //     var input = button.nextElementSibling;
-            //     if (input.value > 1) {
-            //         input.value--;
-            //         updateQuantity(cartItemId, input.value, price);
-            //     }
-            // }
-
-            // function increaseQty(button, cartItemId, price) {
-            //     var input = button.previousElementSibling;
-            //     input.value++;
-            //     updateQuantity(cartItemId, input.value, price);
-            // }
-
             function updateTotalPrice() {
                 let totalPrice = 0;
                 const cartItems = document.querySelectorAll('.bg-white.shadow-md.rounded-lg.p-4.mb-4.h-200'); // Sesuaikan dengan selector yang benar untuk item keranjang
@@ -201,9 +183,10 @@
                     totalPrice += 1 * price;
                 });
 
-                const tax = 10000; // Misalnya nilai pajak
-                const serviceCharge = 6000; // Misalnya nilai Biaya Layanan
-                totalPrice += tax + serviceCharge;
+                const tax = document.getElementById('tax')?.innerHTML; // Misalnya nilai pajak
+                if (tax) {
+                    totalPrice += Number(totalPrice * tax);
+                }
 
                 totalPrice = Number(totalPrice);
 

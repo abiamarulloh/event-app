@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\EventOrganizer;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdditionalFee;
 use App\Models\Category;
 use App\Models\Event;
 use App\Models\User;
@@ -30,7 +31,8 @@ class EventController extends Controller
         $categories = Category::all();
         $isAdmin = Auth::user()->role_id == 1;
         $users = User::all()->where('role_id', 2);
-        return view('event_organizer.events.create', compact('categories', 'isAdmin', 'users'));
+        $additionalFees = AdditionalFee::all();
+        return view('event_organizer.events.create', compact('categories', 'isAdmin', 'users', 'additionalFees'));
     }
 
     /**
@@ -109,7 +111,8 @@ class EventController extends Controller
         $categories = Category::all();
         $isAdmin = Auth::user()->role_id == 1;
         $users = User::all()->where('role_id', 2);
-        return view('event_organizer.events.edit', compact('event', 'categories', 'isAdmin', 'users'));
+        $additionalFees = AdditionalFee::all();
+        return view('event_organizer.events.edit', compact('event', 'categories', 'isAdmin', 'users', 'additionalFees'));
     }
 
     /**

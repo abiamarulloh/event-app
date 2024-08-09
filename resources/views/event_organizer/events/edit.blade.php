@@ -174,9 +174,17 @@
                             <input type="text" id="speaker" value="{{ $event->speaker }}" name="speaker" class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
                         </div>
 
-                        <div class="hidden">
-                            <label for="link_registration" class="block text-sm font-medium mb-2">Link Registration</label>
-                            <input type="text" value="{{ $event->link_registration}}" readonly id="link_registration" name="link_registration" class="w-full border-0 p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
+                        <div>
+                            <label for="additional-fee" class="block text-sm font-medium mb-2">Biaya Tambahan</label>
+                            <select id="additional-fee" name="additional_fee_id"
+                                class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
+
+                                <option value="">Pilih Biaya</option>
+
+                                @foreach ($additionalFees as $fee)
+                                    <option value="{{ $fee->id }}" @selected($fee->id === $event->additional_fee_id)>{{ $fee->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 

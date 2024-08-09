@@ -23,7 +23,7 @@
         <div class="container mx-auto px-3 h-full overflow-auto pb-12">
             <div class="flex flex-col gap-6">
                 <div class="bg-white rounded-lg shadow-md p-6">
-                    <h2 class="text-xl font-semibold mb-4"><b>ID Order</b> : {{ $order->unique_order_id }}</h2>
+                    <h2 class="font-semibold mb-4"><b>ID Order</b> : {{ $order->unique_order_id }}</h2>
                     <p class="text-gray-700 mb-2"><b>Status Pembayaran</b> : <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ $order->latestTransaction->status }}</span></p>
                     <p class="text-gray-700 mb-2"><b>Status Kehadiran</b> :
                         {{ $order->status_attend === 'approved' ? 'Hadir' : 'Belum Hadir' }}
@@ -35,7 +35,7 @@
                     <hr>
 
                     <div class="flex flex-col gap-4 mt-4 py-5">
-                            <div class="flex justify-between items-center">
+                            <div class="flex justify-between items-end">
                                 <div class="flex gap-4">
                                     @if ($order->event->poster_image)
                                         <img src="{{ Storage::url('events/' . $order->event->poster_image) }}" class="w-16 h-16 object-cover rounded-lg"  height="400px" />
@@ -43,6 +43,17 @@
 
                                     <div>
                                         <h3 class="text-lg font-semibold">{{ $order->event->title }}</h3>
+                                        
+                                        @if ($order->additional_fee)
+                                            <ul>
+                                                @foreach ($order->additional_fee as $fee)
+                                                    <li>
+                                                        {{ $fee['type'] }}: {{ $fee['name'] }} - {{ $fee['fee'] }}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+
                                         <p class="text-gray-700">Harga: 
                                             @if ($order->event->sponsorship_title && $order->event->fundraising_target)
                                                 <span style="text-decoration: line-through">@currency($order->event->price)</span>

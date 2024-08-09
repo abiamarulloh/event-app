@@ -1,8 +1,11 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\Event;
 use App\Models\EventRequest;
 use App\Models\Order;
+use App\Models\Transaction;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use Illuminate\Http\Request;
@@ -35,13 +38,32 @@ class OrderController extends Controller
             'total_price' => 'required|integer|min:1',
         ]);
 
+        $event = Event::with('additionalFee')->where('id', $request->event_id)->first();
+
         $order = Order::create([
             'user_id' => auth()->id(),
             'event_id' => $request->event_id,
             'quantity' => $request->quantity,
             'total_price' => $request->total_price,
             'status_attend' => 'waiting',
-            'unique_order_id' => Str::ulid()
+            'unique_order_id' => Str::ulid(),
+            'additional_fee' =>  $event->additionalFee ? [$event->additionalFee] : null,
+            'donation' =>   $event->fundraising_title && $event->fundraising_target ? [
+                [
+                    "fundraising_title" => $event->fundraising_title,
+                    "fundraising_image" => $event->fundraising_image,
+                    "fundraising_target" =>  $event->fundraising_target,
+                    "fundraising_description" =>  $event->fundraising_description
+                ]
+            ] : null,
+            "sponsor" => $event->sponsorship_title && $event->sponsorship_target ? [
+                    [
+                        "sponsorship_title" => $event->sponsorship_title,
+                        "sponsorship_image" => $event->sponsorship_image,
+                        "sponsorship_target" => $event->sponsorship_target,
+                        "sponsorship_description" => $event->sponsorship_description
+                    ]
+            ] : null
         ]);
 
         $params = [
@@ -83,5 +105,52 @@ class OrderController extends Controller
         $requestApproval = EventRequest::where('order_id', $order->id)->first();
 
         return view('order-detail', compact('order', 'requestApproval', 'qrCode'));
+    }
+
+    public function store_zero_amount(Request $request)
+    {
+        $request->validate([
+            'event_id' => 'required|exists:events,id',
+            'total_price' => 'required|integer|min:0'
+        ]);
+
+        $event = Event::with('additionalFee')->where('id', $request->event_id)->first();
+
+        $order = Order::create([
+            'user_id' => auth()->id(),
+            'event_id' => $request->event_id,
+            'quantity' => 1,
+            'total_price' => $request->total_price,
+            'status_attend' => 'waiting',
+            'unique_order_id' => Str::ulid(),
+            'additional_fee' => $event->additionalFee ? [$event->additionalFee] : null,
+            'donation' =>   $event->fundraising_title && $event->fundraising_target ? [
+                [
+                    "fundraising_title" => $event->fundraising_title,
+                    "fundraising_image" => $event->fundraising_image,
+                    "fundraising_target" =>  $event->fundraising_target,
+                    "fundraising_description" =>  $event->fundraising_description
+                ]
+            ] : null,
+            "sponsor" => $event->sponsorship_title && $event->sponsorship_target ? [
+                    [
+                        "sponsorship_title" => $event->sponsorship_title,
+                        "sponsorship_image" => $event->sponsorship_image,
+                        "sponsorship_target" => $event->sponsorship_target,
+                        "sponsorship_description" => $event->sponsorship_description
+                    ]
+            ] : null
+        ]);
+
+        Transaction::create([
+            'order_id' => $order->id,
+            'transaction_id' =>  $order->id,
+            'status' => 'success',
+        ]);
+
+        Cart::where('user_id', $order->user_id)->delete();
+
+        flash()->flash('success', 'Pesanan berhasil dibuat!');
+        return redirect()->route('history.detail', $order->id);
     }
 }

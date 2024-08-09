@@ -119,12 +119,17 @@
                             <span class="text-xs font-bold text-gray">Pisahkan dengan | jika lebih dari satu. contoh: Abi | Malih</span>
                         </div>
 
-                        <div class="hidden">
-                            @php 
-                                $unique_id = uniqid();
-                            @endphp
-                            <label for="link_registration" class="block text-sm font-medium mb-2">Link Registration</label>
-                            <input type="hidden" value="{{$unique_id}}" readonly id="link_registration" name="link_registration" class="w-full border-0 p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
+                        <div>
+                            <label for="additional-fee" class="block text-sm font-medium mb-2">Biaya Tambahan</label>
+                            <select id="additional-fee" name="additional_fee_id"
+                                class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
+
+                                <option value="">Pilih Biaya</option>
+
+                                @foreach ($additionalFees as $fee)
+                                    <option value="{{ $fee->id }}">{{ $fee->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
