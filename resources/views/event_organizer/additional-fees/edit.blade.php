@@ -56,7 +56,7 @@
                     <input type="number" step="0.01" name="fee" id="fee" value="{{ old('fee', $additionalFee->fee) }}"  class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" value="{{ old('fee') }}" required>
                 </div>
         
-                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-700">Buat</button>
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-700">Perbarui</button>
             </form>
         </div>
     </div>

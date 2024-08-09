@@ -97,7 +97,9 @@
                     <h2 class="text-lg font-semibold mb-4">Biaya Tambahan</h2>
                     <div class="flex justify-between items-center mb-2">
                         <span>Tax</span>
-                        <span id="tax">{{ $additionalFee->fee }}%</span>
+                        <span>
+                            (<span id="tax">{{ $additionalFee->fee }}</span>%)
+                        </span>
                     </div>
                     {{-- <div class="flex justify-between items-center mb-2">
                         <span>Biaya Layanan</span>
@@ -185,7 +187,8 @@
 
                 const tax = document.getElementById('tax')?.innerHTML; // Misalnya nilai pajak
                 if (tax) {
-                    totalPrice += Number(totalPrice * tax);
+                    console.log(tax)
+                    totalPrice += Number(totalPrice * tax / 100);
                 }
 
                 totalPrice = Number(totalPrice);

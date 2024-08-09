@@ -31,6 +31,10 @@
                     <p class="text-gray-700 mb-2"><b>Waktu Order</b> : {{ $order->created_at->format('Y-m-d H:i:s') }}</p>
                     <p class="text-gray-700 mb-2"><b>Nama Lengkap</b> : {{ $order->user->name }}</p>
                     <p class="text-gray-700 mb-2"><b>Email</b> : {{ $order->user->email }}</p>
+                    <p class="text-gray-700 mb-2"><b>Lokasi</b> : {{ $order->event->location }}</p>
+                    <p class="text-gray-700 mb-2"><b>Waktu</b> : <span>{{ \Carbon\Carbon::parse($order->event->start_date)->format('l, d F Y, H:i') }}</span>
+                            - <span>{{ \Carbon\Carbon::parse($order->event->end_date)->format('l, d F Y, H:i')  }}</span>
+                    </p>
                     
                     <hr>
 

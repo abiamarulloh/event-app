@@ -61,9 +61,9 @@
                                         @if ($user->role_id === 1)
                                             <span class="bg-red-500 text-white rounded-full px-2 py-1 text-xs">Admin</span>
                                         @elseif ($user->role_id === 2)
-                                            <span class="bg-green-500 text-white rounded-full px-2 py-1 text-xs">User</span>
+                                            <span class="bg-green-500 text-white rounded-full px-2 py-1 text-xs">Event Organizer</span>
                                         @else
-                                            <span class="bg-blue-500 text-white rounded-full px-2 py-1 text-xs">Guest</span>
+                                            <span class="bg-blue-500 text-white rounded-full px-2 py-1 text-xs">Attender</span>
                                         @endif
 
                                     </th>

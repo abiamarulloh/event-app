@@ -91,7 +91,7 @@
                         </div>
 
                         <div>
-                            <label for="location" class="block text-sm font-medium mb-2">Tempat / Apps</label>
+                            <label for="location" class="block text-sm font-medium mb-2">Tempat</label>
                             <input type="text" id="location" name="location" class="w-full p-2.5 border border-gray-600 rounded focus:ring-blue-500 focus:border-blue-500">
                         </div>
                     </div>

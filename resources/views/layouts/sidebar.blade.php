@@ -41,6 +41,10 @@
                   </a>
                </li>
 
+               
+               
+
+               @if (Auth::user()->role_id === 2)
                <li>
                   <a href="/event" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('event.index') ? 'bg-gray-700 text-white hover:bg-gray-700' : '' }}">
                      <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 {{ request()->routeIs('event.index') ? 'text-gray-400 text-white group-hover:text-white' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
@@ -67,7 +71,9 @@
                      <span class="flex-1 ms-3 whitespace-nowrap">Daftar Hadir</span>
                   </a>
                </li>
+               @endif
 
+               
                @if (Auth::user()->role_id === 2)
                <li>
                   <a href="/bank-accounts" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('bank-accounts.index') ? 'bg-gray-700 text-white hover:bg-gray-700' : '' }}">

@@ -33,7 +33,7 @@
                     <div class="px-4 py-2 text-white text-center mx-auto cursor-pointer">
                         <div class="flex items-center justify-center">
                             <h3 class="text-lg font-medium">
-                                Event App
+                                EventKu
                             </h3>
                             {{-- <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
@@ -46,21 +46,6 @@
                         {{-- <p class="text-sm font-medium">{{ $currentUserInfo->cityName }},
                             {{ $currentUserInfo->regionName }}</p> --}}
                     </div>
-
-                    <button type="button"
-                        class="relative inline-flex items-center p-3 text-sm font-medium text-center text-white bg-green-200 rounded-full bg-opacity-50 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                        <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                            viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 5.365V3m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175 0 .593 0 1.292-.538 1.292H5.538C5 18 5 17.301 5 16.708c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 12 5.365ZM8.733 18c.094.852.306 1.54.944 2.112a3.48 3.48 0 0 0 4.646 0c.638-.572 1.236-1.26 1.33-2.112h-6.92Z" />
-                        </svg>
-
-                        <span class="sr-only">Notifications</span>
-                        <div
-                            class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
-                            20</div>
-                    </button>
                 </div>
 
                 {{-- <form class="w-full mx-auto px-6 mt-3">

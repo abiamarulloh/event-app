@@ -15,9 +15,14 @@ class Order extends Model
         'sponsor' => 'array', // Mengonversi kolom JSON ke array
     ];
 
-    protected $fillable = ['user_id', 'event_id', 'quantity', 'total_price', 'unique_order_id', 'additional_fee', 'donation', 'sponsor'];
+    protected $fillable = ['user_id', 'event_organizer_id', 'event_id', 'quantity', 'total_price', 'unique_order_id', 'additional_fee', 'donation', 'sponsor'];
 
     public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function event_organizer()
     {
         return $this->belongsTo(User::class);
     }

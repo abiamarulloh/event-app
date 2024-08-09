@@ -37,7 +37,7 @@ class CartController extends Controller
         }
 
         if ($tax) {
-            $total = $total * $tax;
+            $total += $total * $tax / 100;
         }
 
         $snapToken = null;

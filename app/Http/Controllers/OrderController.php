@@ -43,6 +43,7 @@ class OrderController extends Controller
         $order = Order::create([
             'user_id' => auth()->id(),
             'event_id' => $request->event_id,
+            'event_organizer_id' => $event->user_id,
             'quantity' => $request->quantity,
             'total_price' => $request->total_price,
             'status_attend' => 'waiting',
@@ -119,6 +120,7 @@ class OrderController extends Controller
         $order = Order::create([
             'user_id' => auth()->id(),
             'event_id' => $request->event_id,
+            'event_organizer_id' => $event->user_id,
             'quantity' => 1,
             'total_price' => $request->total_price,
             'status_attend' => 'waiting',
