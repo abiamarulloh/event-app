@@ -36,15 +36,15 @@
             <form action="{{ route('bank-accounts.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">
-                    <label for="account_number" class="form-label">Account Number</label>
+                    <label for="account_number" class="form-label">Nomor Rekening</label>
                     <input type="text" name="account_number" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" id="account_number" required>
                 </div>
                 <div class="mb-3">
-                    <label for="bank_name" class="form-label">Bank Name</label>
+                    <label for="bank_name" class="form-label">Nama Bank</label>
                     <input type="text" name="bank_name" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" id="bank_name" required>
                 </div>
                 <div class="mb-3">
-                    <label for="account_holder_name" class="form-label">Account Holder Name</label>
+                    <label for="account_holder_name" class="form-label">Nama Pengguna</label>
                     <input type="text" name="account_holder_name" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" id="account_holder_name" required>
                 </div>
                 <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-700">Submit</button>

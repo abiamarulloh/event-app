@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use App\Models\EventRequest;
 use App\Models\Order;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 use Illuminate\Http\Request;
 use Midtrans\Snap;
 use Illuminate\Support\Str;
@@ -73,24 +75,13 @@ class OrderController extends Controller
             abort(404);
         }
 
+        // Example data for QR code
+        $data = $order->unique_order_id; 
+
+        // Generate the QR code
+        $qrCode = QrCode::size(200)->generate($data);
         $requestApproval = EventRequest::where('order_id', $order->id)->first();
 
-        return view('order-detail', compact('order', 'requestApproval'));
+        return view('order-detail', compact('order', 'requestApproval', 'qrCode'));
     }
-
-    // public function requestAccess($uniqueCode)
-    // {
-    //     $order = Order::where('unique_code', $uniqueCode)
-    //     ->where('user_id', auth()->id())
-    //     ->first();
-
-    //     if (!$order) {
-    //         abort(404);
-    //     }
-
-    //     $order->status_attend = 'approved';
-    //     $order->save();
-
-    //     return redirect()->route('history.detail', $order->id);
-    // }
 }

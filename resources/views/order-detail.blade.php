@@ -20,17 +20,18 @@
             </h2>
         </div>
 
-        <div class="container mx-auto py-8 px-3 h-full overflow-auto">
+        <div class="container mx-auto px-3 h-full overflow-auto pb-12">
             <div class="flex flex-col gap-6">
                 <div class="bg-white rounded-lg shadow-md p-6">
                     <h2 class="text-xl font-semibold mb-4"><b>Order ID</b> : {{ $order->unique_order_id }}</h2>
+                    <p class="text-gray-700 mb-2"><b>Status Pembayaran</b> : <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ $order->latestTransaction->status }}</span></p>
                     <p class="text-gray-700 mb-2"><b>Waktu Order</b> : {{ $order->created_at->format('Y-m-d H:i:s') }}</p>
-                    <p class="text-gray-700 mb-2"><b>Nama Lengkap</b> : {{ Auth::user()->email }}</p>
-                    <p class="text-gray-700 mb-2"><b>Email</b> : {{ Auth::user()->email }}</p>
+                    <p class="text-gray-700 mb-2"><b>Nama Lengkap</b> : {{ $order->user->name }}</p>
+                    <p class="text-gray-700 mb-2"><b>Email</b> : {{ $order->user->email }}</p>
                     
                     <hr>
 
-                    <div class="flex flex-col gap-4 mt-4">
+                    <div class="flex flex-col gap-4 mt-4 py-5">
                             <div class="flex justify-between items-center">
                                 <div class="flex gap-4">
                                     @if ($order->event->poster_image)
@@ -62,6 +63,17 @@
                                 </div>
                             </div> --}}
 
+                            <hr class="h-[2px]" />
+
+
+                            <div class="my-3 w-full">
+                                <h3 class="font-medium text-center mb-2">Scan QR Atau Klik Tombol Ajukan Bergabung untuk bergabung</h3>
+                                <div class="mx-auto text-center flex justify-center">
+                                    {!! $qrCode !!}
+                                </div>
+                            </div>
+
+                            <hr class="h-[2px]" />
 
                             <div class="flex justify-start">
                                 @if (!empty($requestApproval) && $requestApproval->status === 'pending')
@@ -99,7 +111,7 @@
                                             <input type="hidden" name="event_id" value="{{  $order->event->id }}">
                                             <input type="hidden" name="event_organizer_id" value="{{  $order->event->user_id }}">
                                             <input type="hidden" name="order_id" value="{{  $order->id }}">
-                                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ajukan Bergabung</button>
+                                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">Ajukan Bergabung</button>
                                         </form>
 
                                         <div class="flex items-center p-4 mt-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">
@@ -114,6 +126,8 @@
                                 @endif
                             </div>
                     </div>
+
+                    
                 </div>
             </div>
         </div>

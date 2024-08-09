@@ -10,12 +10,143 @@
         </header>
 
         <div class="py-6">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 my-2">
-                <div class="bg-white light:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex justify-between">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 my-2 flex justify-between items-start">
+                <div class="bg-white sm:block light:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg md:flex justify-between flex-start w-full">
                     <div class="p-6 text-gray-900 light:text-gray-100">
                         {{ __('Daftar Hadir/List') }}
                     </div>
+
+                    <div>
+                        <div class="flex gap-2 justify-center">
+                            <!-- Button to show scanner -->
+                            <button id="toggleScannerBtn" class="xs:w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                Show QR Code Scanner
+                            </button>
+
+                            <!-- Button to toggle full-screen mode -->
+                            <button id="toggleFullscreenBtn" class="xs:w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 lg:ml-4 hidden">
+                                Go Full Screen
+                            </button>
+                        </div>
+     
+                         <style>
+                             /* Animasi garis pemindai */
+                             .scanner-line {
+                                 position: absolute;
+                                 top: 0;
+                                 left: 0;
+                                 width: 100%;
+                                 height: 4px;
+                                 background: rgba(255, 0, 0, 0.7);
+                                 border-radius: 2px;
+                                 animation: moveLine 1.5s linear infinite;
+                             }
+                     
+                             @keyframes moveLine {
+                                 0% {
+                                     top: 0;
+                                 }
+                                 50% {
+                                     top: calc(100% - 4px);
+                                 }
+                                 100% {
+                                     top: 0;
+                                 }
+                             }
+                         </style>
+     
+                         <!-- Section for QR Code scanner, initially hidden -->
+                        <div id="scannerSection" class="mt-4 relative mx-auto flex justify-center hidden">
+                            <div id="reader" class="w-[400px] h-[300px] bg-gray-200 rounded-lg relative overflow-hidden">
+                            </div>
+                            <div class="scanner-line"></div> <!-- Animated line -->
+                            <form id="qrForm" action="{{ route('qr.scan') }}" method="POST" style="display: none;">
+                                @csrf
+                                <input type="hidden" name="qr_code" id="qrCodeInput">
+                                <input type="hidden" value="{{$eventId}}" name="event_id" id="eventId">
+                            </form>
+                        </div>
+                         <script src="https://unpkg.com/html5-qrcode" type="text/javascript"> </script>
+                         <script>
+                             document.addEventListener("DOMContentLoaded", function () {
+                                 var html5QrCode = new Html5Qrcode("reader");
+                                 var scannerSection = document.getElementById("scannerSection");
+                                 var toggleScannerBtn = document.getElementById("toggleScannerBtn");
+                                 var toggleFullscreenBtn = document.getElementById("toggleFullscreenBtn");
+                                 var scannerVisible = false;
+
+                                // Show the scanner section if a fragment is set
+                                if (window.location.search.includes('fragment=scannerSection')) {
+                                    scannerSection.classList.remove("hidden");
+                                    html5QrCode.start({ facingMode: "environment" }, { fps: 10 }, onScanSuccess, onScanError)
+                                        .catch(err => {
+                                            console.error(`Start failed: ${err}`);
+                                        });
+                                }
+                     
+                               // Toggle scanner visibility
+                                toggleScannerBtn.addEventListener("click", function() {
+                                    scannerVisible = !scannerVisible;
+
+                                    if (scannerVisible) {
+                                        scannerSection.classList.remove("hidden");
+                                        toggleScannerBtn.textContent = "Hide QR Code Scanner";
+                                        toggleFullscreenBtn.classList.remove("hidden");
+
+                                        // Start the QR code scanner
+                                        html5QrCode.start({ facingMode: "environment" }, { fps: 10 }, onScanSuccess, onScanError)
+                                            .catch(err => {
+                                                console.error(`Start failed: ${err}`);
+                                            });
+
+                                    } else {
+                                        scannerSection.classList.add("hidden");
+                                        toggleScannerBtn.textContent = "Show QR Code Scanner";
+                                        toggleFullscreenBtn.classList.add("hidden");
+
+                                        // Stop the QR code scanner
+                                        html5QrCode.stop().catch(err => {
+                                            console.error(`Stop failed: ${err}`);
+                                        });
+                                    }
+                                });
+
+                                // Toggle full-screen mode
+                                toggleFullscreenBtn.addEventListener("click", function() {
+                                    if (!document.fullscreenElement) {
+                                        scannerSection.requestFullscreen();
+                                        toggleFullscreenBtn.textContent = "Go Full Screen";
+                                    } else {
+                                        document.exitFullscreen();
+                                        toggleFullscreenBtn.textContent = "Exit Full Screen";
+                                    }
+                                });
+
+                     
+                                 function onScanSuccess(decodedText, decodedResult) {
+                                     // Handle the result here
+                                     console.log(`Code matched = ${decodedText}`);
+                     
+                                     // Set the QR code value to the hidden input field and submit the form
+                                     document.getElementById('qrCodeInput').value = decodedText;
+                                     document.getElementById('qrForm').submit();
+
+                                     
+                                     // Stop scanning
+                                     html5QrCode.stop().catch(err => {
+                                         console.log(`Stop failed: ${err}`);
+                                     });
+                                 }
+                     
+                                 function onScanError(errorMessage) {
+                                     // Handle scan error here
+                                     console.warn(`QR Code scan error: ${errorMessage}`);
+                                 }
+                             });
+                         </script>
+                    </div>
                 </div>
+
             </div>
 
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -30,7 +161,7 @@
                                     Nama Lengkap
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Unique Code
+                                    Order Unique ID
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Status
@@ -53,7 +184,7 @@
                                         {{ $eventReq->customer->email }}
                                     </th>
                                     <td class="px-6 py-4">
-                                        {{-- {{  $eventReq->unique_code }} --}}
+                                        {{  $eventReq->order->unique_order_id }}
                                     </td>
                                     <td class="px-6 py-4">
                                         @if ($eventReq->status === 'pending')
@@ -101,7 +232,7 @@
                            @if ($eventRequest->isEmpty())
                                 <tr
                                     class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                                    <td colspan="3" class="px-6 py-4 text-center">
+                                    <td colspan="5" class="px-6 py-4 text-center">
                                         No data available
                                     </td>
                                 </tr>

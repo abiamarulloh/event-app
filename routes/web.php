@@ -45,11 +45,12 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/history/order/{invoiceId}', [OrderController::class, 'show'])->name('history.detail');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     // Route::post('/request/approval/{uniqueCode}', [OrderController::class, 'requestAccess'])->name('request-approval');
-    Route::post('/transactions/notification', [TransactionController::class, 'notification'])->name('transactions.notification');
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
     
     Route::post('/event-request', [EventRequestController::class, 'requestApproval'])->name('event.request.approval');
     Route::resource('presence', PresenceController::class);
+    Route::post('/qr-scan', [PresenceController::class, 'scanQR'])->name('qr.scan');
+    
     Route::post('/event-request/{id}/approve', [PresenceController::class, 'approve'])->name('event.request.approve');
     Route::post('/event-request/{id}/reject', [PresenceController::class, 'reject'])->name('event.request.reject');
     Route::post('/event-request/{id}/pending', [PresenceController::class, 'pending'])->name('event.request.pending');
@@ -58,5 +59,6 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::resource('withdrawals', WithdrawalController::class)->only(['index', 'create', 'store', 'show', 'update']);
 });
 
+Route::post('/transactions/notification', [TransactionController::class, 'notification'])->name('transactions.notification');
 
 require __DIR__.'/auth.php';
