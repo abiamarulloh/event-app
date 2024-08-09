@@ -75,52 +75,58 @@
                                  var toggleFullscreenBtn = document.getElementById("toggleFullscreenBtn");
                                  var scannerVisible = false;
 
-                                // Show the scanner section if a fragment is set
-                                if (window.location.search.includes('fragment=scannerSection')) {
-                                    scannerSection.classList.remove("hidden");
-                                    html5QrCode.start({ facingMode: "environment" }, { fps: 10 }, onScanSuccess, onScanError)
-                                        .catch(err => {
-                                            console.error(`Start failed: ${err}`);
-                                        });
-                                }
-                     
-                               // Toggle scanner visibility
-                                toggleScannerBtn.addEventListener("click", function() {
-                                    scannerVisible = !scannerVisible;
+                                 console.log(html5QrCode)
 
-                                    if (scannerVisible) {
+                                // Check if BarcodeDetector is supported
+                                if ('BarcodeDetector' in window) {
+
+                                    // Show the scanner section if a fragment is set
+                                    if (window.location.search.includes('fragment=scannerSection')) {
                                         scannerSection.classList.remove("hidden");
-                                        toggleScannerBtn.textContent = "Hide QR Code Scanner";
-                                        toggleFullscreenBtn.classList.remove("hidden");
-
-                                        // Start the QR code scanner
                                         html5QrCode.start({ facingMode: "environment" }, { fps: 10 }, onScanSuccess, onScanError)
                                             .catch(err => {
                                                 console.error(`Start failed: ${err}`);
                                             });
-
-                                    } else {
-                                        scannerSection.classList.add("hidden");
-                                        toggleScannerBtn.textContent = "Show QR Code Scanner";
-                                        toggleFullscreenBtn.classList.add("hidden");
-
-                                        // Stop the QR code scanner
-                                        html5QrCode.stop().catch(err => {
-                                            console.error(`Stop failed: ${err}`);
-                                        });
                                     }
-                                });
+                        
+                                // Toggle scanner visibility
+                                    toggleScannerBtn.addEventListener("click", function() {
+                                        scannerVisible = !scannerVisible;
 
-                                // Toggle full-screen mode
-                                toggleFullscreenBtn.addEventListener("click", function() {
-                                    if (!document.fullscreenElement) {
-                                        scannerSection.requestFullscreen();
-                                        toggleFullscreenBtn.textContent = "Go Full Screen";
-                                    } else {
-                                        document.exitFullscreen();
-                                        toggleFullscreenBtn.textContent = "Exit Full Screen";
-                                    }
-                                });
+                                        if (scannerVisible) {
+                                            scannerSection.classList.remove("hidden");
+                                            toggleScannerBtn.textContent = "Hide QR Code Scanner";
+                                            toggleFullscreenBtn.classList.remove("hidden");
+
+                                            // Start the QR code scanner
+                                            html5QrCode.start({ facingMode: "environment" }, { fps: 10 }, onScanSuccess, onScanError)
+                                                .catch(err => {
+                                                    console.error(`Start failed: ${err}`);
+                                                });
+
+                                        } else {
+                                            scannerSection.classList.add("hidden");
+                                            toggleScannerBtn.textContent = "Show QR Code Scanner";
+                                            toggleFullscreenBtn.classList.add("hidden");
+
+                                            // Stop the QR code scanner
+                                            html5QrCode.stop().catch(err => {
+                                                console.error(`Stop failed: ${err}`);
+                                            });
+                                        }
+                                    });
+
+                                    // Toggle full-screen mode
+                                    toggleFullscreenBtn.addEventListener("click", function() {
+                                        if (!document.fullscreenElement) {
+                                            scannerSection.requestFullscreen();
+                                            toggleFullscreenBtn.textContent = "Go Full Screen";
+                                        } else {
+                                            document.exitFullscreen();
+                                            toggleFullscreenBtn.textContent = "Exit Full Screen";
+                                        }
+                                    });
+                                }
 
                      
                                  function onScanSuccess(decodedText, decodedResult) {
