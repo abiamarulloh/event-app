@@ -44,8 +44,6 @@ class TransactionController extends Controller
 
         Cart::where('user_id', $order->user_id)->delete();
 
-
-        $order->update(['status' => $status]);
         flash()->flash('success', 'Order Berhasil');
 
         return Redirect::route('history.detail', $order->id);

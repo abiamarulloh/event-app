@@ -16,7 +16,7 @@
                 <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 8h6m-6 4h6m-6 4h6M6 3v18l2-2 2 2 2-2 2 2 2-2 2 2V3l-2 2-2-2-2 2-2-2-2 2-2-2Z"/>
                   </svg>
-                <span>Order History</span>      
+                <span>Catatan Order</span>      
             </h2>
         </div>
 
@@ -29,16 +29,23 @@
                 <div class="flex flex-col gap-6">
                     @foreach ($orders as $order)
                         <div class="bg-white rounded-lg shadow-md p-6">
-                            <h2 class="text-xl font-semibold mb-2">Order ID: {{ $order->unique_order_id }}</h2>
-                            <p class="text-gray-700 mb-2">Total Amount: @currency($order->total_price)</p>
-                            <p class="text-gray-700 mb-4">Ordered At: {{ $order->created_at->format('Y-m-d H:i:s') }}</p>
+                            <p class="font-bold text-xl text-gray-700 mb-2">{{ $order->event->title }}</p>
+                            <p class="text-gray-700 mb-2">ID Order: {{ $order->unique_order_id }}</p>
+                            <p class="text-gray-700 mb-2">Jumlah Pembayaran: @currency($order->total_price)</p>
+                            <p class="text-gray-700 mb-4">Waktu Order: {{ $order->created_at->format('Y-m-d H:i:s') }}</p>
                             <p class="text-gray-700 mb-4">
                                 Status Pembayaran: 
-                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">
-                                    {{ $order->latest_transaction_status }}
-                                </span>
+                                @if ( $order->latest_transaction_status  === 'success')
+                                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                                        {{ $order->latest_transaction_status }}
+                                    </span>
+                                @else 
+                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">
+                                        {{ $order->latest_transaction_status }}
+                                    </span>
+                                @endif
                             </p>
-                            <a href="{{ route('history.detail', $order->id) }}" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded inline-block">View Details</a>
+                            <a href="{{ route('history.detail', $order->id) }}" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded inline-block">Lihat Detail</a>
                         </div>
                     @endforeach
                 </div>

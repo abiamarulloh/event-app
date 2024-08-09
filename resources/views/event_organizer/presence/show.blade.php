@@ -20,17 +20,17 @@
                         <div class="flex gap-2 justify-center">
                             <!-- Button to show scanner -->
                             <button id="toggleScannerBtn" class="xs:w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                                Show QR Code Scanner
+                                Tampilkan Pemindai QR
                             </button>
 
                             <!-- Button to toggle full-screen mode -->
                             <button id="toggleFullscreenBtn" class="xs:w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 lg:ml-4 hidden">
-                                Go Full Screen
+                                Buka Layar Lebar
                             </button>
 
                             <!-- Button to toggle camera -->
                             <button id="toggleCameraBtn" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 ml-4 hidden">
-                                Switch Camera
+                                Ganti Kamera
                             </button>
                         </div>
      
@@ -62,7 +62,7 @@
      
                          <!-- Section for QR Code scanner, initially hidden -->
                         <div id="scannerSection" class="mt-4 relative mx-auto flex justify-center hidden">
-                            <div id="reader" class="w-[500px] bg-gray-200 rounded-lg relative overflow-hidden">
+                            <div id="reader" style="width: 500px;"  class="bg-gray-200 rounded-lg relative overflow-hidden">
                             </div>
                             <div class="scanner-line"></div> <!-- Animated line -->
                             <form id="qrForm" action="{{ route('qr.scan') }}" method="POST" style="display: none;">
@@ -101,7 +101,7 @@
 
                                         if (scannerVisible) {
                                             scannerSection.classList.remove("hidden");
-                                            toggleScannerBtn.textContent = "Hide QR Code Scanner";
+                                            toggleScannerBtn.textContent = "Tutup Pemindai QR Code";
                                             toggleFullscreenBtn.classList.remove("hidden");
 
                                             toggleCameraBtn.classList.remove("hidden");
@@ -110,7 +110,7 @@
                                             startScanner();
                                         } else {
                                             scannerSection.classList.add("hidden");
-                                            toggleScannerBtn.textContent = "Show QR Code Scanner";
+                                            toggleScannerBtn.textContent = "Tampilkan Pemindai QR";
                                             toggleFullscreenBtn.classList.add("hidden");
                                             toggleCameraBtn.classList.add("hidden");
 
@@ -125,10 +125,10 @@
                                     toggleFullscreenBtn.addEventListener("click", function() {
                                         if (!document.fullscreenElement) {
                                             scannerSection.requestFullscreen();
-                                            toggleFullscreenBtn.textContent = "Go Full Screen";
+                                            toggleFullscreenBtn.textContent = "Buka dilayar lebar";
                                         } else {
                                             document.exitFullscreen();
-                                            toggleFullscreenBtn.textContent = "Exit Full Screen";
+                                            toggleFullscreenBtn.textContent = "Keluar dari layar lebar";
                                         }
                                     });
 
