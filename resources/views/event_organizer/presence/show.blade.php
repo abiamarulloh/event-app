@@ -75,8 +75,6 @@
                                  var toggleFullscreenBtn = document.getElementById("toggleFullscreenBtn");
                                  var scannerVisible = false;
 
-                                 console.log(html5QrCode)
-
                                 // Check if BarcodeDetector is supported
                                 if ('BarcodeDetector' in window) {
 
@@ -89,7 +87,7 @@
                                             });
                                     }
                         
-                                // Toggle scanner visibility
+                                     // Toggle scanner visibility
                                     toggleScannerBtn.addEventListener("click", function() {
                                         scannerVisible = !scannerVisible;
 

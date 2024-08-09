@@ -247,7 +247,7 @@
                             'total_price': parseInt(totalPrice)
                         };
                 
-                        fetch("{{ route('orders.store') }}", {
+                        fetch("{{ config('app.url') }}/orders", {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
