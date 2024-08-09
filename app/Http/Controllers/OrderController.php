@@ -5,6 +5,7 @@ use App\Models\EventRequest;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Midtrans\Snap;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -37,14 +38,14 @@ class OrderController extends Controller
             'event_id' => $request->event_id,
             'quantity' => $request->quantity,
             'total_price' => $request->total_price,
-            'status_attend' => 'waiting'
+            'status_attend' => 'waiting',
+            'unique_order_id' => Str::ulid()
         ]);
-
 
         $params = [
             'transaction_details' => [
-                'order_id' => $order->id,
-                'gross_amount' =>  $request->total_price,
+                'order_id' => $order->unique_order_id,
+                'gross_amount' =>  $request->total_price
             ],
             'customer_details' => [
                 'first_name' => auth()->user()->name,

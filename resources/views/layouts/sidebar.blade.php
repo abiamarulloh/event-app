@@ -17,7 +17,15 @@
 
             <li class="mx-1 flex flex-col items-center justify-evenly py-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  group">
               <h3>{{ Auth::user()->name }}</h3>
-              <p class="mt-2 bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">{{ Auth::user()->role_id === 1 ? 'Admin' : 'Event Organizer' }}</p>
+              <p class="mt-2 bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">
+               @if(Auth::user()->role_id === 1) 
+                  Admin
+               @elseif (Auth::user()->role_id === 2)
+                  Event Organizer
+               @else
+                  Pengunjung
+               @endif
+              </p>
             </li>
 
             <hr>

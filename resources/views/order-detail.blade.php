@@ -23,7 +23,7 @@
         <div class="container mx-auto py-8 px-3 h-full overflow-auto">
             <div class="flex flex-col gap-6">
                 <div class="bg-white rounded-lg shadow-md p-6">
-                    <h2 class="text-xl font-semibold mb-4"><b>Order ID</b> : {{ $order->id }}</h2>
+                    <h2 class="text-xl font-semibold mb-4"><b>Order ID</b> : {{ $order->unique_order_id }}</h2>
                     <p class="text-gray-700 mb-2"><b>Waktu Order</b> : {{ $order->created_at->format('Y-m-d H:i:s') }}</p>
                     <p class="text-gray-700 mb-2"><b>Nama Lengkap</b> : {{ Auth::user()->email }}</p>
                     <p class="text-gray-700 mb-2"><b>Email</b> : {{ Auth::user()->email }}</p>

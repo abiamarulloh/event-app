@@ -29,7 +29,7 @@
                 <div class="flex flex-col gap-6">
                     @foreach ($orders as $order)
                         <div class="bg-white rounded-lg shadow-md p-6">
-                            <h2 class="text-xl font-semibold mb-2">Order ID: {{ $order->id }}</h2>
+                            <h2 class="text-xl font-semibold mb-2">Order ID: {{ $order->unique_order_id }}</h2>
                             <p class="text-gray-700 mb-2">Total Amount: @currency($order->total_price)</p>
                             <p class="text-gray-700 mb-4">Ordered At: {{ $order->created_at->format('Y-m-d H:i:s') }}</p>
                             <p class="text-gray-700 mb-4">

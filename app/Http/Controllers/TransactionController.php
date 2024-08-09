@@ -4,7 +4,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
-use App\Models\Event;
 use App\Models\Order;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -23,12 +22,11 @@ class TransactionController extends Controller
         $payload = $request->all()['json'];
         $notification = json_decode($payload);
 
-
         $transactionStatus = $notification->transaction_status;
-        $orderId = $notification->order_id;
+        $unique_order_id = $notification->order_id;
         $transactionId = $notification->transaction_id;
 
-        $order = Order::find($orderId);
+        $order = Order::where('unique_order_id', $unique_order_id)->first();
 
         if ($transactionStatus == 'capture' || $transactionStatus == 'settlement') {
             $status = 'success';
