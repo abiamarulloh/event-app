@@ -16,7 +16,20 @@ class CartController extends Controller
         $total = $cartItems->sum(function($cartItem) {
             $price = $cartItem->event->price ;
             if ($cartItem->event->sponsorship_title && $cartItem->event->fundraising_target) {
-                $price = $cartItem->event->sponsorship_target - ($cartItem->event->price * $cartItem->event->quota);
+                // Data yang diketahui
+                $hargaEvent = $cartItem->event->price; // Harga event per peserta
+                $quota = $cartItem->event->quota; // Jumlah peserta
+                $sponsorship = $cartItem->event->sponsorship_target; // Dana sponsorship
+
+                // Total pendapatan dari tiket
+                $totalPendapatan = $hargaEvent * $quota;
+
+                // Total setelah dikurangi sponsorship
+                $totalSetelahSponsorship = $totalPendapatan - $sponsorship;
+
+                // Harga yang seharusnya dibayar per peserta
+                $hargaPerPeserta = $totalSetelahSponsorship / $quota;
+                $price = $hargaPerPeserta;
             }
 
             return $price * $cartItem->quantity;

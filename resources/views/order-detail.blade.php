@@ -61,7 +61,24 @@
                                         <p class="text-gray-700">Harga: 
                                             @if ($order->event->sponsorship_title && $order->event->fundraising_target)
                                                 <span style="text-decoration: line-through">@currency($order->event->price)</span>
-                                                @currency($order->event->sponsorship_target - ($order->event->price * $order->event->quota))
+                                                @php 
+                                                    // Data yang diketahui
+                                                        $hargaEvent = $order->event->price; // Harga event per peserta
+                                                        $quota = $order->event->quota; // Jumlah peserta
+                                                        $sponsorship = $order->event->sponsorship_target; // Dana sponsorship
+
+                                                        // Total pendapatan dari tiket
+                                                        $totalPendapatan = $hargaEvent * $quota;
+
+                                                        // Total setelah dikurangi sponsorship
+                                                        $totalSetelahSponsorship = $totalPendapatan - $sponsorship;
+
+                                                        // Harga yang seharusnya dibayar per peserta
+                                                        $hargaPerPeserta = $totalSetelahSponsorship / $quota;
+                                                        $price = $hargaPerPeserta;
+                                                @endphp
+                                                @currency($price)
+                                                {{-- @currency($order->event->sponsorship_target - ($order->event->price * $order->event->quota)) --}}
                                             @else
                                                 @currency($order->event->price) 
                                             @endif

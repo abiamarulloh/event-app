@@ -33,7 +33,23 @@
                             @else
                                 @if ($event->sponsorship_title && $event->fundraising_target)
                                     <span style="text-decoration: line-through">@currency($event->price)</span>
-                                    @currency($event->sponsorship_target - ($event->price * $event->quota))
+                                    @php 
+                                           // Data yang diketahui
+                                            $hargaEvent = $event->price; // Harga event per peserta
+                                            $quota = $event->quota; // Jumlah peserta
+                                            $sponsorship = $event->sponsorship_target; // Dana sponsorship
+
+                                            // Total pendapatan dari tiket
+                                            $totalPendapatan = $hargaEvent * $quota;
+
+                                            // Total setelah dikurangi sponsorship
+                                            $totalSetelahSponsorship = $totalPendapatan - $sponsorship;
+
+                                            // Harga yang seharusnya dibayar per peserta
+                                            $hargaPerPeserta = $totalSetelahSponsorship / $quota;
+                                            $price = $hargaPerPeserta;
+                                    @endphp
+                                    @currency($price)
                                 @else
                                     @currency($event->price) 
                                 @endif

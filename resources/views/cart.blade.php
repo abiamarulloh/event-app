@@ -57,7 +57,23 @@
                                         <p class="text-sm text-gray-600 price">
                                             @if ($cartItem->event->sponsorship_title && $cartItem->event->fundraising_target)
                                                 <span style="text-decoration: line-through">@currency($cartItem->event->price)</span>
-                                                @currency($cartItem->event->sponsorship_target - ($cartItem->event->price * $cartItem->event->quota))
+                                                    @php 
+                                                            // Data yang diketahui
+                                                            $hargaEvent = $cartItem->event->price; // Harga event per peserta
+                                                            $quota = $cartItem->event->quota; // Jumlah peserta
+                                                            $sponsorship = $cartItem->event->sponsorship_target; // Dana sponsorship
+                
+                                                            // Total pendapatan dari tiket
+                                                            $totalPendapatan = $hargaEvent * $quota;
+                
+                                                            // Total setelah dikurangi sponsorship
+                                                            $totalSetelahSponsorship = $totalPendapatan - $sponsorship;
+                
+                                                            // Harga yang seharusnya dibayar per peserta
+                                                            $hargaPerPeserta = $totalSetelahSponsorship / $quota;
+                                                            $price = $hargaPerPeserta;
+                                                    @endphp
+                                                    @currency($price)
                                             @else
                                                 @currency($cartItem->event->price) 
                                             @endif
